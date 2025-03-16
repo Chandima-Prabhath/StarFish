@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: android/app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
@@ -71,4 +71,4 @@ jobs:
             Release APK for version ${{ github.ref }}
           draft: false
           prerelease: false
-          artifacts: android/app/build/outputs/apk/debug/app-debug.apk
+          artifacts: android/app/build/outputs/apk/release/app-release-unsigned.apk
