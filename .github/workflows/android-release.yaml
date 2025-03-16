@@ -62,6 +62,12 @@ jobs:
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/keystore.jks
 
+      - name: Install apksigner
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zipalign
+          echo "export PATH=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -n 1):$PATH" >> $GITHUB_ENV
+
       - name: Sign APK
         run: |
           apksigner sign --ks android/keystore.jks \
