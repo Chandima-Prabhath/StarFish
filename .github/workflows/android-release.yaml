@@ -54,13 +54,14 @@ jobs:
           cd android
           ./gradlew assembleRelease
 
-      - name: Upload APK
+      - name: Upload APK as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
           path: android/app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Create GitHub Release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
@@ -71,3 +72,13 @@ jobs:
             Release APK for version ${{ github.ref }}
           draft: false
           prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: android/app/build/outputs/apk/release/app-release-unsigned.apk
+          asset_name: app-release-unsigned.apk
+          asset_content_type: application/vnd.android.package-archive
