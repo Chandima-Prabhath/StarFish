@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.example.app',
-  appName: 'react-vite-capacitor',
+  appId: 'com.starfish.app',
+  appName: 'StarFish',
   webDir: 'dist',
   bundledWebRuntime: false
 };

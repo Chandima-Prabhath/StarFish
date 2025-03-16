@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">react-vite-capacitor</string>
-    <string name="title_activity_main">react-vite-capacitor</string>
-    <string name="package_name">com.example.app</string>
-    <string name="custom_url_scheme">com.example.app</string>
+    <string name="app_name">StarFish</string>
+    <string name="title_activity_main">StarFish</string>
+    <string name="package_name">com.starfish.app</string>
+    <string name="custom_url_scheme">com.starfish.app</string>
 </resources>
