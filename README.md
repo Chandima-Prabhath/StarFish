@@ -1,4 +1,6 @@
-# React Vite Capacitor Starter :zap: + 📱
+<img style="border-radius: 5rem; width: 15rem; height: 15rem;" src="logo.png" alt="Logo" />
+
+# StarFish
 
 This is a starter template for building mobile applications with React, Vite, and [Capacitor](https://capacitorjs.com). It includes a basic project setup and some sample components to help you get started.
 

@@ -16,6 +16,7 @@ import { HomeIcon, CogIcon } from "@heroicons/react/20/solid";
 
 const BackButtonHandler: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     let backButtonListener: any;
@@ -23,7 +24,12 @@ const BackButtonHandler: React.FC = () => {
     CapacitorApp.addListener("backButton", () => {
       // Check if browser history has previous entries by examining window.history.state.idx
       const state = window.history.state;
-      if (state && typeof state.idx === "number" && state.idx > 0) {
+      if (
+        state &&
+        typeof state.idx === "number" &&
+        state.idx > 0 &&
+        location.pathname !== "/"
+      ) {
         navigate(-1);
       } else {
         // No history available; exit the app
