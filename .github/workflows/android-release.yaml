@@ -71,4 +71,3 @@ jobs:
             Release APK for version ${{ github.ref }}
           draft: false
           prerelease: false
-          artifacts: android/app/build/outputs/apk/release/app-release-unsigned.apk
