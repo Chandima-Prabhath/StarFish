@@ -62,14 +62,16 @@ jobs:
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/keystore.jks
 
-      - name: Find and Use apksigner
+      # Set the BUILD_TOOLS_PATH environment variable to the latest build-tools directory.
+      - name: Set Build Tools Path
         run: |
           echo "BUILD_TOOLS_PATH=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -n 1)" >> $GITHUB_ENV
-          echo "export PATH=$BUILD_TOOLS_PATH:$PATH" >> $GITHUB_ENV
-
+          echo "Build tools located at: $(cat $GITHUB_ENV | grep BUILD_TOOLS_PATH)"
+      
       - name: Sign APK
         run: |
-          $BUILD_TOOLS_PATH/apksigner sign --ks android/keystore.jks \
+          # Use the absolute path to apksigner
+          "${{ env.BUILD_TOOLS_PATH }}/apksigner" sign --ks android/keystore.jks \
             --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} \
             --key-pass pass:${{ secrets.KEY_PASSWORD }} \
             --ks-key-alias ${{ secrets.KEY_ALIAS }} \
@@ -78,7 +80,7 @@ jobs:
 
       - name: Verify APK Signature
         run: |
-          apksigner verify --verbose --print-certs android/app/build/outputs/apk/release/starfish_${{ env.RELEASE_VERSION }}.apk
+          "${{ env.BUILD_TOOLS_PATH }}/apksigner" verify --verbose --print-certs android/app/build/outputs/apk/release/starfish_${{ env.RELEASE_VERSION }}.apk
 
       - name: Upload APK as Artifact
         uses: actions/upload-artifact@v4
