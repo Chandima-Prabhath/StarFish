@@ -1,5 +1,5 @@
 <br/>
-<div align="center"><h1><img style="border-radius: 5rem; width: 15rem; height: 15rem;" src="logo.png" alt="Logo" /></h1></div>
+<div align="center"><h1><img style="border-radius: 5rem; width: 15rem; height: 15rem;" src="./src/assets/logo.png" alt="Logo" /></h1></div>
 <br/>
 <p align="center">
   <a href="https://github.com/Chandima-Prabhath/StarFish">
