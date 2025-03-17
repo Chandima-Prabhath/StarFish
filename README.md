@@ -5,8 +5,8 @@
   <a href="https://github.com/Chandima-Prabhath/StarFish">
   <img src="https://img.shields.io/maintenance/yes/2025?style=flat-square" />
   </a>
-  <a href="https://github.com/Chandima-Prabhath/StarFish/actions/workflows/.yml">
-  <img src="https://img.shields.io/github/actions/workflow/status/Chandima-Prabhath/StarFish/android-release.yaml?branch=main&style=flat-square" />
+  <a href="https://github.com/Chandima-Prabhath/StarFish/actions/workflows/android-release.yml">
+<img src="https://img.shields.io/github/actions/workflow/status/Chandima-Prabhath/StarFish/android-release.yml?branch=main&style=flat-square&label=Android%20Release" />
   </a>
   <a href="https://github.com/Chandima-Prabhath/StarFish">
   <img src="https://img.shields.io/github/license/Chandima-Prabhath/StarFish?style=flat-square" />
