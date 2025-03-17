@@ -1,0 +1,73 @@
+.first-time-setup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3em;
+}
+
+.first-time-setup::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(
+      transparent,
+      var(--color2) 70%,
+      var(--color3) 100%
+    ),
+    url("../assets/logo.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  filter: blur(25px);
+  z-index: -1; /* send behind the content */
+  animation: blur-fade-out 1s ease-out;;
+}
+
+@keyframes blur-fade-out {
+    0% {
+        filter: blur(100px);
+      }
+      100% {
+        filter: blur(25px);
+      }
+}
+
+.first-time-setup h1 {
+  color: var(--highlight-text);
+}
+
+.first-time-setup p {
+  font-weight: lighter;
+}
+
+.first-time-setup input {
+  width: 100%;
+  padding: 0.5em 2em;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 5em;
+  border-color: var(--highlight-text);
+}
+
+.first-time-setup button {
+  width: 8em;
+  background-color: var(--highlight-text);
+  color: var(--color5);
+  padding: 0.25em;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 5em;
+  font-weight: bold;
+}

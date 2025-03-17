@@ -1,12 +1,23 @@
-import { useState } from "react";
+import {
+  Route,
+  Routes,
+} from "react-router";
+
 import "./App.css";
+import BottomNavigation from "./components/core/navigation/BottomNavigation";
+
+import SettingsPage from "./pages/settings";
+import HomePage from "./pages/home";
 
 function App() {
   return (
-    <div className="home-page fade-in" data-oid="xdnbi9w">
-      <h1 data-oid="h_vphg.">Home</h1>
-      <div data-oid="7eec:-y"></div>
-    </div>
+    <div className="App fade-in">
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/settings" element={<SettingsPage />} />
+    </Routes>
+    <BottomNavigation />
+  </div>
   );
 }
 
