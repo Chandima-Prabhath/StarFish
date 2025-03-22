@@ -1,8 +1,5 @@
 import { HomeIcon, CogIcon } from "@heroicons/react/20/solid";
-import {
-    NavLink,
-    useLocation,
-  } from "react-router";
+import { NavLink, useLocation } from "react-router";
 
 function BottomNavigation() {
   const location = useLocation();

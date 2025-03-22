@@ -16,17 +16,19 @@ function SettingsPage() {
     setUsername(localStorage.getItem("username") || "");
   }, []);
   return (
-    <div className="settings-page fade-in">
-      <h1 className="highlight-text">Settings</h1>
-      <div className="info-container fade-in">
-        <h3>Username</h3>
-        <p>{username}</p>
-        <h3>App ID</h3>
-        <p>{appId}</p>
-        <h3>App Version</h3>
-        <p>{appVersion}</p>
-        <h3>App Build Number</h3>
-        <p>{appBuildNumber}</p>
+    <div className="settings-page fade-in" data-oid="ll1dfp6">
+      <h1 className="highlight-text" data-oid="82ev-k2">
+        Settings
+      </h1>
+      <div className="info-container fade-in" data-oid="_y-_r6z">
+        <h3 data-oid="lgu__6l">Username</h3>
+        <p data-oid="1id-f_l">{username}</p>
+        <h3 data-oid="5fpm2.7">App ID</h3>
+        <p data-oid="bix9kp5">{appId}</p>
+        <h3 data-oid="v-j9bow">App Version</h3>
+        <p data-oid="3xo91sj">{appVersion}</p>
+        <h3 data-oid="75jfk4k">App Build Number</h3>
+        <p data-oid="q1881t1">{appBuildNumber}</p>
       </div>
     </div>
   );

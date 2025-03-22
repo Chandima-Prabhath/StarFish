@@ -1,0 +1,33 @@
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color3); /* Primary background color */
+    z-index: 100;
+  }
+  
+  .logo-container {
+    width: 120px; /* Adjust size as needed */
+    margin-bottom: 20px; /* Spacing between logo and loader */
+  }
+  
+  .logo-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  
+  .loading-indicator {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--color2); /* Secondary color */
+    border-top-color: transparent;
+    border-radius: 50%;
+  }
+  

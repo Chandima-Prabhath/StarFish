@@ -9,6 +9,21 @@ import { App as CapacitorApp } from "@capacitor/app";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 
+import BackendApiClient from './lib/BackendApiClient';
+import SplashScreen from "./components/screens/SplashScreen";
+
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import { Toast } from '@capacitor/toast';
+
+// Call the element loader before the render call
+defineCustomElements(window);
+
+const showToast = async (msg:any) => {
+  await Toast.show({
+    text: msg,
+  });
+};
+
 const BackButtonHandler: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,26 +60,37 @@ const BackButtonHandler: React.FC = () => {
 };
 
 const RenderApp: React.FC = () => {
-  const [isSetupDone, setIsSetupDone] = React.useState(false);
+  const [isSetupDone, setIsSetupDone] = React.useState<boolean | null>(null);
 
   React.useEffect(() => {
-    const setup = localStorage.getItem("setup");
-    if (setup === "true") {
-      setIsSetupDone(true);
-    }
+    const getCurrentUser = async () => {
+      try {
+        const currentUser = await BackendApiClient.getCurrentUser();
+        console.log("Current User:", currentUser);
+        showToast(`Welcome back, ${currentUser?.username}`)
+        setIsSetupDone(!!currentUser); // Set to true if currentUser exists, false otherwise
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+        setIsSetupDone(false); // Consider setup not done in case of error
+      }
+    };
+    getCurrentUser();
   }, []);
+
+  if (isSetupDone === null) {
+    return <SplashScreen/>;
+  }
 
   return (
     <>
       {isSetupDone ? (
         <App />
       ) : (
-        <FirstTimeSetup whenDone={() => setIsSetupDone(true)} />
+        <FirstTimeSetup whenDone={(authToken) => { if (authToken) setIsSetupDone(true); }} />
       )}
     </>
   );
 };
-
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -72,5 +98,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <BackButtonHandler />
       <RenderApp />
     </BrowserRouter>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
