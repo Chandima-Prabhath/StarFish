@@ -3,16 +3,19 @@ import { Route, Routes } from "react-router";
 import "./App.css";
 import BottomNavigation from "./components/core/navigation/BottomNavigation";
 
-import SettingsPage from "./pages/settings";
+import ProfilePage from "./pages/profile";
 import HomePage from "./pages/home";
+import EventsPage from "./pages/events";
+import MapPage from "./pages/map";
 
 function App() {
   return (
     <div className="App fade-in">
       <Routes>
         <Route path="/" element={<HomePage />} />
-
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/map" element={<MapPage />} />
       </Routes>
       <BottomNavigation />
     </div>

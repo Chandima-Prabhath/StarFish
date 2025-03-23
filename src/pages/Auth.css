@@ -1,77 +1,243 @@
-.first-time-setup {
+/* -----------------------------
+   Overall Container
+----------------------------- */
+.auth-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 3em;
+  z-index: 10; /* Ensure it's above background layers */
 }
 
-.first-time-setup::before {
+/* Background blur / gradient overlay */
+.auth-container::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: linear-gradient(transparent,
-      #193060 20%,
-      #050316 100%),
+  inset: 0;
+  background-image: 
+    linear-gradient(
+      transparent, 
+      #193060 20%, 
+      #050316 100%
+    ),
     url("../assets/logo.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;
   filter: blur(25px);
   z-index: -1;
-  /* send behind the content */
   animation: blur-fade-out 1s ease-out;
-  ;
 }
 
 @keyframes blur-fade-out {
   0% {
     filter: blur(100px);
   }
-
   100% {
     filter: blur(25px);
   }
 }
 
-.first-time-setup h1 {
-  color: var(--highlight-text);
+/* -----------------------------
+   Fade-in Animation
+----------------------------- */
+.fade-in {
+  animation: fadeIn 0.7s ease-out;
 }
 
-.first-time-setup p {
-  font-weight: lighter;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.first-time-setup.form p {
-  margin: 0;
+/* -----------------------------
+   Title & Subtitle
+----------------------------- */
+.auth-title {
+  color: var(--highlight-text, #ffae74);
+  font-size: 2rem;
+  margin-bottom: 0.5em;
+  text-align: center;
 }
 
-.first-time-setup input {
+.auth-subtitle {
+  font-weight: 300;
+  margin-bottom: 1.5em;
+  text-align: center;
+}
+
+/* -----------------------------
+   Form Container
+----------------------------- */
+.auth-form {
   width: 100%;
-  padding: 0.5em 2em;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  border-radius: 5em;
-  border-color: var(--highlight-text);
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-bottom: 1em;
 }
 
-.first-time-setup button {
-  width: 8em;
-  background-color: var(--highlight-text);
-  color: var(--color5);
-  padding: 0.25em;
-  margin: 8px 0;
+/* Two-column layout for first/last name */
+.name-fields {
+  display: flex;
+  gap: 1em;
+}
+
+.input-group {
+  position: relative;
+  width: 100%;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75em 1em;
+  border: 1px solid var(--highlight-text, #ffae74);
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--neutral-text, #e0e6ed);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input::placeholder {
+  color: #ccc;
+}
+
+.input-group input:focus {
+  border-color: var(--color1, #eac85b);
+}
+
+/* -----------------------------
+   Password Field & Show/Hide
+----------------------------- */
+.password-field {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 1rem;
+  background: none;
   border: none;
   cursor: pointer;
-  border-radius: 5em;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.password-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--highlight-text, #ffae74);
+}
+
+/* -----------------------------
+   Extras (Remember Me / Forgot)
+----------------------------- */
+.auth-extras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-top: -0.5em;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.remember-me input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.forgot-password {
+  background: none;
+  border: none;
+  color: var(--highlight-text, #ffae74);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* -----------------------------
+   Error Message
+----------------------------- */
+.error-message {
+  color: #f08080;
+  text-align: center;
+  margin: 0.5em 0;
   font-weight: bold;
+}
+
+/* -----------------------------
+   Submit Button
+----------------------------- */
+.auth-submit {
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  padding: 0.75em 2em;
+  border: none;
+  border-radius: 50px;
+  background-color: var(--highlight-text, #ffae74);
+  color: var(--color5, #32445a);
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.auth-submit:hover {
+  background-color: var(--color1, #eac85b);
+  transform: translateY(-2px);
+}
+
+/* -----------------------------
+   Toggle Mode
+----------------------------- */
+.toggle-mode {
+  margin-top: 1em;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: var(--highlight-text, #ffae74);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* -----------------------------
+   Responsive
+----------------------------- */
+@media (max-width: 500px) {
+  .auth-container {
+    padding: 2em 1em;
+  }
+  .auth-title {
+    font-size: 1.8rem;
+  }
+  .auth-form {
+    max-width: 100%;
+  }
+  .name-fields {
+    flex-direction: column;
+  }
 }

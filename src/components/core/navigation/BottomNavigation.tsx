@@ -1,4 +1,4 @@
-import { HomeIcon, CogIcon, MagnifyingGlassIcon, MapIcon, NewspaperIcon, UserIcon, UserCircleIcon } from "@heroicons/react/20/solid";
+import { HomeIcon, CogIcon, MagnifyingGlassIcon, MapIcon, NewspaperIcon, UserIcon } from "@heroicons/react/20/solid";
 import { NavLink, useLocation } from "react-router";
 
 function BottomNavigation() {
@@ -9,10 +9,10 @@ function BottomNavigation() {
         className={({ isActive }) =>
           isActive ? "navigation-button active" : "navigation-button"
         }
-        to="/"
+        to="/map"
       >
-        <HomeIcon className="navigation-button-icon" />
-        <span>Home</span>
+        <MapIcon className="navigation-button-icon" />
+        <span>Map</span>
       </NavLink>
       <NavLink
         className={({ isActive }) =>
@@ -23,14 +23,15 @@ function BottomNavigation() {
         <MagnifyingGlassIcon className="navigation-button-icon" />
         <span>Search</span>
       </NavLink>
+
       <NavLink
         className={({ isActive }) =>
           isActive ? "navigation-button active" : "navigation-button"
         }
-        to="/map"
+        to="/"
       >
-        <MapIcon className="navigation-button-icon" />
-        <span>Map</span>
+        <HomeIcon className="navigation-button-icon" />
+        <span>Home</span>
       </NavLink>
       <NavLink
         className={({ isActive }) =>
@@ -45,7 +46,7 @@ function BottomNavigation() {
         className={({ isActive }) =>
           isActive ? "navigation-button active" : "navigation-button"
         }
-        to="/settings"
+        to="/profile"
       >
         <UserIcon className="navigation-button-icon" />
         <span>Profile</span>

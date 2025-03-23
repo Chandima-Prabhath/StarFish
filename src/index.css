@@ -5,14 +5,13 @@
   font-weight: 400;
   color-scheme: dark;
 
-  /* Revised Color Palette */
-  --color1: #1f2a40; /* Active elements and primary accents */
-  --color2: #1c2733; /* Navigation background and secondary elements */
-  --color3: #141c2a; /* App background */
-  --color4: #eac85b; /* Accent color for links and highlights */
-  --color5: #32445a; /* Button background */
-  --neutral-text: #e0e6ed; /* Main text color */
-  --highlight-text: #ffae74; /* Highlighted text color */
+  --color1: #eac85b;  /* Primary accent (used for highlights/glow) */
+  --color2: #242f4a;  /* Dark background gradient start */
+  --color3: #1b2232;  /* Dark background gradient end */
+  --color4: #ffae74;  /* Secondary accent or highlight text color */
+  --color5: #59789d;  /* Neutral or subtle accent (button backgrounds, borders) */
+  --neutral-text: #ffffff; /* Main text color */
+  --highlight-text: #ffae74; /* Highlight text color */
 
   color: var(--neutral-text);
   background-color: var(--color3);
@@ -22,40 +21,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-}
-
-a {
-  text-decoration: inherit;
-}
-a:hover {
-  color: var(--color4);
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: var(--color5);
-  cursor: pointer;
-  transition: background-color 0.25s, border-color 0.25s;
-}
-
-button:hover {
-  background-color: var(--color1);
-  border-color: var(--color4);
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
 .App {
@@ -114,9 +79,9 @@ button:focus-visible {
 }
 
 .navigation-button.active {
-  background-color: var(--color1);
-  border: var(--highlight-text) 1px solid;
-  color: var(--highlight-text);
+  background-color: var(--color3);
+  border: var(--color1) 1px solid;
+  color: var(--color1);
   border-radius: 25px;
   padding-left: 5px;
   padding-right: 5px;
@@ -153,19 +118,12 @@ button:focus-visible {
   color: var(--color4);
 }
 
-.settings-page {
-  background-image: linear-gradient(
-    transparent,
-    var(--color2) 80%,
-    var(--color3) 100%
-  );
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: top;
-  width: 100%;
-  height: 100%;
-}
+
 
 .highlight-text {
   color: var(--highlight-text);
+}
+
+.scroll-page{
+  overflow-y: scroll;
 }

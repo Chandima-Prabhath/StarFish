@@ -1,34 +1,283 @@
+/* ----------------------------------------
+   Base Styles
+---------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
 .home-page {
-    width: 100%;
-    height: 100%;
+  position: relative;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  margin-bottom: 70px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: var(--neutral-text, #e0e6ed);
+  overflow-x: hidden; /* Prevent horizontal scroll if carousels overflow */
+}
+
+/* 
+  A subtle layered background with a gradient overlay.
+  The existing blurred background can remain as is, or you can remove it 
+  if you'd like a simpler look. 
+*/
+.home-page::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    /* 1) Transparent -> dark gradient fade */
+    linear-gradient(
+      to bottom, 
+      rgba(25, 48, 96, 0.2), 
+      rgba(5, 3, 22, 0.8)
+    ),
+    /* 2) Optional background image or pattern (blurred) */
+    url("../assets/logo.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  filter: blur(20px);
+  z-index: -1; /* Send behind content */
+}
+
+/* Fade-in animation for the page content */
+.fade-in {
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ----------------------------------------
+   Hero Section
+---------------------------------------- */
+.hero-section {
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+
+/* A modern, bold greeting */
+.welcome-message {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Subtext for location */
+.location-tag {
+  font-size: 1.1rem;
+  color: var(--highlight-text, #ffae74);
+  font-weight: 300;
+}
+
+/* Emphasize the city name */
+.city-name {
+  font-weight: 500;
+}
+
+/* ----------------------------------------
+   Categories
+---------------------------------------- */
+.event-categories {
+  margin-bottom: 30px;
+}
+
+.event-categories h2 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--highlight-text, #ffae74);
+}
+
+/* A subtle "glass" or "card" background behind categories, 
+   giving them more visual separation. */
+.categories-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  background-color: rgba(28, 39, 51, 0.4); /* var(--color2) w/ opacity */
+  padding: 10px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px); /* for the glass effect, if supported */
+}
+
+.category-chip {
+  background-color: rgba(50, 68, 90, 0.8); /* var(--color5) with opacity */
+  border: none;
+  color: var(--neutral-text, #e0e6ed);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.category-chip:hover {
+  background-color: var(--color1, #eac85b);
+  transform: translateY(-2px);
+}
+
+/* ----------------------------------------
+   Trending Events
+---------------------------------------- */
+.trending-events {
+  margin-bottom: 30px;
+}
+
+.trending-events h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--highlight-text, #ffae74);
+  margin-bottom: 10px;
+}
+
+/* Horizontal scrolling container for event cards */
+.card-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+}
+
+/* Hide default scrollbar (optional) */
+.card-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Event Card Styles */
+.event-card {
+  flex: 0 0 auto; /* So each card doesn't shrink */
+  background-color: rgba(28, 39, 51, 0.8); /* var(--color2) w/ opacity */
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 180px; /* Slightly larger for a more prominent look */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-3px);
+}
+
+.event-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover; /* If you have a fixed height, keep the image aspect ratio */
+}
+
+.card-content {
+  padding: 10px;
+}
+
+.card-content h3 {
+  font-size: 1rem;
+  margin: 0 0 5px 0;
+  font-weight: 600;
+}
+
+.card-content p {
+  font-size: 0.85rem;
+  margin: 0;
+  color: var(--highlight-text, #ffae74);
+}
+
+/* ----------------------------------------
+   Recommended Events
+---------------------------------------- */
+.recommended-events {
+  margin-bottom: 30px;
+}
+
+.recommended-events h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--highlight-text, #ffae74);
+  margin-bottom: 10px;
+}
+
+/* Reuse .card-carousel and .event-card styles */
+
+/* ----------------------------------------
+   Map View Section
+---------------------------------------- */
+.map-view {
+  margin-top: 30px;
+}
+
+.map-view h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--highlight-text, #ffae74);
+  margin-bottom: 10px;
+}
+
+/* Container for the map with a slight border & radius */
+.map-placeholder {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgba(28, 39, 51, 0.4);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Use My Location Button */
+.use-my-location {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: var(--color1, #eac85b);
+  border: none;
+  color: var(--color3, #141c2a);
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.use-my-location:hover {
+  background-color: var(--highlight-text, #ffae74);
+  transform: scale(1.05);
+}
+
+/* ----------------------------------------
+   Responsive Adjustments
+---------------------------------------- */
+@media (max-width: 768px) {
+  .hero-section {
+    margin-top: 5px;
   }
-  
-  .home-page::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: linear-gradient(
-        transparent,
-        var(--color2) 70%,
-        var(--color3) 100%
-      ),
-      url("../assets/logo.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: top;
-    filter: blur(15px);
-    z-index: -1; /* send behind the content */
-    animation: blur-fade 1s ease-out;;
+
+  /* Stack the event cards vertically on smaller screens */
+  .card-carousel {
+    flex-direction: column;
+    align-items: center;
   }
-  
-  @keyframes blur-fade {
-      0% {
-        filter: blur(50px);
-      }
-      100% {
-        filter: blur(15px);
-      }
-  }
+}

@@ -41,7 +41,7 @@ import { CapacitorHttp as Http } from '@capacitor/core';
  * console.log("Event created:", event);
  */
 
-interface UserData {
+export interface UserData {
   username: string;
   email?: string;
   password: string;
@@ -51,7 +51,7 @@ interface UserData {
   profile_picture?: string;
 }
 
-interface LocationData {
+export interface LocationData {
   location_id?: number; // May be returned by the backend
   name: string;
   address: string;
@@ -62,7 +62,7 @@ interface LocationData {
   longitude: number;
 }
 
-interface EventData {
+export interface EventData {
   event_id?: number; // May be returned by the backend
   host_id: number;
   title: string;
@@ -80,13 +80,13 @@ interface EventData {
   location_id?: number; // Will be set before creating the event
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   access_token?: string;
   token_type?: string;
   error?: string;
 }
 
-interface UserResponse {
+export interface UserResponse {
   user_id?: number;
   username?: string;
   email?: string;
@@ -96,12 +96,16 @@ interface UserResponse {
   profile_picture?: string;
 }
 
-interface LocationResponse extends LocationData {}
+export interface LocationResponse extends LocationData {}
 
-interface EventResponse extends EventData {}
+export interface EventResponse extends EventData {}
 
-interface ErrorResponse {
+export interface ErrorResponse {
   detail: string;
+}
+
+export type CategoryResponse = {
+  category: string;
 }
 
 class ApiClient {
@@ -225,6 +229,24 @@ class ApiClient {
    */
   async getEvents(): Promise<EventResponse[]> {
     return this.request<EventResponse[]>("/api/v1/events/", "GET");
+  }
+
+  /**
+   * Retrieve all event categories.
+   */
+  async getEventCategories(): Promise<CategoryResponse[]> {    
+    const categories = await this.request<string[]>("/api/v1/events/categories/all", "GET");
+    return categories.map(category => ({
+      category: category
+    }));
+
+  }
+
+  /**
+   * Retrieve events by category.
+   */
+  async getEventsByCategory(category: string): Promise<EventResponse[]> {
+    return this.request<EventResponse[]>(`/api/v1/events/category/${category}`, "GET");
   }
 
   /**
