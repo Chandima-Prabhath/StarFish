@@ -24,7 +24,7 @@ interface Coordinates {
 }
 
 export default function MapPage() {
-    const [location, setLocation] = useState<Coordinates | null>({ latitude: 6.905870, longitude: 81.135293 });
+    const [location, setLocation] = useState<Coordinates | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
