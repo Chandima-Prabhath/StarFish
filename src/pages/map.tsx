@@ -1,7 +1,22 @@
 import { Geolocation, PermissionStatus } from "@capacitor/geolocation";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+
+import "./map.css";
+
+// Import marker images as ES modules
+import markerIcon2x from "../assets/marker-icon-2x.png";
+import markerIcon from "../assets/marker-icon.png";
+import markerShadow from "../assets/marker-shadow.png";
+
+// Fix default marker icon paths
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
 interface Coordinates {
     latitude: number;
@@ -9,7 +24,7 @@ interface Coordinates {
 }
 
 export default function MapPage() {
-    const [location, setLocation] = useState<Coordinates | null>({ latitude: 51.505, longitude: -0.09 });
+    const [location, setLocation] = useState<Coordinates | null>({ latitude: 6.905870, longitude: 81.135293 });
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -49,17 +64,14 @@ export default function MapPage() {
             {error && <p className="error-message">{error}</p>}
             {location ? (
                 <div className="location-info">
-                    <h2>Your Location</h2>
-                    <p>Latitude: {location.latitude.toFixed(6)}</p>
-                    <p>Longitude: {location.longitude.toFixed(6)}</p>
-                    <MapContainer style={{ height: '400px', width: '100%' }} center={[location.latitude, location.longitude]} zoom={13} scrollWheelZoom={false}>
+                    <MapContainer style={{ height: '100dvh', width: '100%' }} center={[location.latitude, location.longitude]} zoom={13} scrollWheelZoom={false}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         <Marker position={[location.latitude, location.longitude]}>
                             <Popup>
-                                A pretty CSS3 popup. <br /> Easily customizable.
+                                Your current location
                             </Popup>
                         </Marker>
                     </MapContainer>
