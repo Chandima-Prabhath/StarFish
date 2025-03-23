@@ -4,7 +4,6 @@ const config: CapacitorConfig = {
   appId: 'com.starfish.app',
   appName: 'StarFish',
   webDir: 'dist',
-  bundledWebRuntime: false,
   android: { allowMixedContent: true },
   plugins: {
     CapacitorHttp: {

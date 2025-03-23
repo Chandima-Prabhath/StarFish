@@ -1,6 +1,7 @@
 import { Geolocation, PermissionStatus } from "@capacitor/geolocation";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 interface Coordinates {
     latitude: number;
@@ -8,7 +9,7 @@ interface Coordinates {
 }
 
 export default function MapPage() {
-    const [location, setLocation] = useState<Coordinates | null>(null);
+    const [location, setLocation] = useState<Coordinates | null>({ latitude: 51.505, longitude: -0.09 });
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -51,7 +52,7 @@ export default function MapPage() {
                     <h2>Your Location</h2>
                     <p>Latitude: {location.latitude.toFixed(6)}</p>
                     <p>Longitude: {location.longitude.toFixed(6)}</p>
-                    <MapContainer center={[location.latitude, location.longitude]} zoom={13} scrollWheelZoom={false}>
+                    <MapContainer style={{ height: '400px', width: '100%' }} center={[location.latitude, location.longitude]} zoom={13} scrollWheelZoom={false}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
