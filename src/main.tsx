@@ -78,19 +78,19 @@ const RenderApp: React.FC = () => {
   }, []);
 
   if (isSetupDone === null) {
-    return <SplashScreen data-oid="goq.ply" />;
+    return <SplashScreen data-oid="9fl.bp0" />;
   }
 
   return (
     <>
       {isSetupDone ? (
-        <App data-oid="a5wh99z" />
+        <App data-oid="jwtddew" />
       ) : (
         <FirstTimeSetup
           whenDone={(authToken) => {
             if (authToken) setIsSetupDone(true);
           }}
-          data-oid="x3pnf1m"
+          data-oid="_ue_wnh"
         />
       )}
     </>
@@ -98,10 +98,10 @@ const RenderApp: React.FC = () => {
 };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode data-oid="4is2liy">
-    <BrowserRouter data-oid="hnalqw0">
-      <BackButtonHandler data-oid="n0-muki" />
-      <RenderApp data-oid="r6mppj7" />
+  <React.StrictMode data-oid="1euqy._">
+    <BrowserRouter data-oid="cmwk0n0">
+      <BackButtonHandler data-oid="u1e.hel" />
+      <RenderApp data-oid="y._zjiy" />
     </BrowserRouter>
   </React.StrictMode>,
 );

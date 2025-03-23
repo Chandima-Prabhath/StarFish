@@ -8,21 +8,21 @@ import HomePage from "./pages/home";
 
 function App() {
   return (
-    <div className="App fade-in" data-oid="kghlz.3">
-      <Routes data-oid="9dd.apl">
+    <div className="App fade-in" data-oid="944:0qc">
+      <Routes data-oid="hh_8mot">
         <Route
           path="/"
-          element={<HomePage data-oid="2nhsbym" />}
-          data-oid="d16oc6p"
+          element={<HomePage data-oid="cip2mgr" />}
+          data-oid="_dgm23n"
         />
 
         <Route
           path="/settings"
-          element={<SettingsPage data-oid="7e.5hek" />}
-          data-oid=":ix-xcj"
+          element={<SettingsPage data-oid="foadsu7" />}
+          data-oid="dh71_qb"
         />
       </Routes>
-      <BottomNavigation data-oid="qmr4-1e" />
+      <BottomNavigation data-oid="04p9-m3" />
     </div>
   );
 }

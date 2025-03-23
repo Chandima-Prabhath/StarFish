@@ -4,26 +4,26 @@ import { NavLink, useLocation } from "react-router";
 function BottomNavigation() {
   const location = useLocation();
   return (
-    <nav className="navigation-bar" data-oid="5n7h6re">
+    <nav className="navigation-bar" data-oid="uv0bb..">
       <NavLink
         className={({ isActive }) =>
           isActive ? "navigation-button active" : "navigation-button"
         }
         to="/"
-        data-oid="r5kiuwu"
+        data-oid="zjvv72v"
       >
-        <HomeIcon className="navigation-button-icon" data-oid="ss-22tp" />
-        <span data-oid="als3kl7">Home</span>
+        <HomeIcon className="navigation-button-icon" data-oid="h240c:2" />
+        <span data-oid="7vf52t0">Home</span>
       </NavLink>
       <NavLink
         className={({ isActive }) =>
           isActive ? "navigation-button active" : "navigation-button"
         }
         to="/settings"
-        data-oid="68zplz8"
+        data-oid="abtdf33"
       >
-        <CogIcon className="navigation-button-icon" data-oid="x9:c2g9" />
-        <span data-oid="j7-2xwn">Settings</span>
+        <CogIcon className="navigation-button-icon" data-oid="m-lh_e_" />
+        <span data-oid=":08nx85">Settings</span>
       </NavLink>
     </nav>
   );

@@ -16,19 +16,19 @@ function SettingsPage() {
     setUsername(localStorage.getItem("username") || "");
   }, []);
   return (
-    <div className="settings-page fade-in" data-oid="mhi3d8q">
-      <h1 className="highlight-text" data-oid="lvsjdc5">
+    <div className="settings-page fade-in" data-oid="2yeubyp">
+      <h1 className="highlight-text" data-oid="dvz-m5q">
         Settings
       </h1>
-      <div className="info-container fade-in" data-oid="dqq-6:w">
-        <h3 data-oid="0sxeebf">Username</h3>
-        <p data-oid="idybg_v">{username}</p>
-        <h3 data-oid="t-sx73j">App ID</h3>
-        <p data-oid="nas:_pa">{appId}</p>
-        <h3 data-oid="ckaf99p">App Version</h3>
-        <p data-oid="qi9-41r">{appVersion}</p>
-        <h3 data-oid="fw781tp">App Build Number</h3>
-        <p data-oid="8ac:bcu">{appBuildNumber}</p>
+      <div className="info-container fade-in" data-oid="2-rf0ah">
+        <h3 data-oid="7v36b8q">Username</h3>
+        <p data-oid="moyxiv6">{username}</p>
+        <h3 data-oid=":ai4dqp">App ID</h3>
+        <p data-oid="hrbwww8">{appId}</p>
+        <h3 data-oid="laduf:w">App Version</h3>
+        <p data-oid="nk-qvan">{appVersion}</p>
+        <h3 data-oid="_bfq.83">App Build Number</h3>
+        <p data-oid="9uao.z.">{appBuildNumber}</p>
       </div>
     </div>
   );

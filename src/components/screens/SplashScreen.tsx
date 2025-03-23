@@ -5,20 +5,20 @@ import "./SplashScreen.css";
 
 const SplashScreen: React.FC = () => {
   return (
-    <div className="splash-screen" data-oid="6gyh4e:">
+    <div className="splash-screen" data-oid="i:stxm-">
       <motion.div
         className="logo-container"
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        data-oid="_z9w5h_"
+        data-oid="b1k6hok"
       >
-        <img src={Logo} alt="App Logo" data-oid="915an6v" />
+        <img src={Logo} alt="App Logo" data-oid="s6baqfc" />
       </motion.div>
       <motion.div
         className="loading-indicator"
         animate={{ rotate: 360 }}
         transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-        data-oid=".jvwdid"
+        data-oid="nepntmh"
       />
     </div>
   );
