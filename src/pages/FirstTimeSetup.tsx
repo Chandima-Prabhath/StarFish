@@ -120,16 +120,16 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
   return (
     <div
       className="first-time-setup fade-in rounded-[616px]"
-      data-oid="_rf.v96"
+      data-oid="zpwczpf"
     >
-      <h1 data-oid="432qdan">{isLoginMode ? "Login" : "Sign Up"}</h1>
-      <p data-oid="ry2u1e1">
+      <h1 data-oid="zn2yj.6">{isLoginMode ? "Login" : "Sign Up"}</h1>
+      <p data-oid="czaaxm4">
         {isLoginMode
           ? "Welcome back! Please log in to continue."
           : "Create a new account to get started."}
       </p>
 
-      <p data-oid="znj-kuy">
+      <p data-oid="efllfvp">
         <input
           type="text"
           name="username"
@@ -137,12 +137,12 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
           placeholder="Your Username"
           value={username}
           onChange={(e) => handleInputChange(e, setUsername)}
-          data-oid="pxk7mwb"
+          data-oid="kmmtufq"
         />
       </p>
 
       {!isLoginMode && (
-        <p data-oid="-1ks5_w">
+        <p data-oid="ae.0689">
           <input
             type="email"
             name="email"
@@ -150,12 +150,12 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
             placeholder="Your Email"
             value={email}
             onChange={(e) => handleInputChange(e, setEmail)}
-            data-oid="dvhg-ge"
+            data-oid="znqjukt"
           />
         </p>
       )}
 
-      <p data-oid="5sqlw6n">
+      <p data-oid="221k.34">
         <input
           type="password"
           name="password"
@@ -163,21 +163,21 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
           placeholder="Password"
           value={password}
           onChange={(e) => handleInputChange(e, setPassword)}
-          data-oid="qz1xhm0"
+          data-oid="l:fgrtg"
         />
       </p>
 
       {errorMessage && (
-        <p className="error-message" data-oid="mx99lpb">
+        <p className="error-message" data-oid="954for0">
           {errorMessage}
         </p>
       )}
 
-      <button type="button" onClick={handleSubmit} data-oid="st.eq4x">
+      <button type="button" onClick={handleSubmit} data-oid="yo94x_j">
         {isLoginMode ? "Login" : "Sign Up"}
       </button>
 
-      <p className="toggle-mode" data-oid="pi.zccv">
+      <p className="toggle-mode" data-oid="ynr9:bz">
         {isLoginMode ? (
           <>
             Don't have an account?{" "}
@@ -185,7 +185,7 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
               type="button"
               className="link-button"
               onClick={toggleMode}
-              data-oid="z-w2c3:"
+              data-oid="bv6.tt:"
             >
               Sign Up
             </button>
@@ -197,7 +197,7 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
               type="button"
               className="link-button"
               onClick={toggleMode}
-              data-oid="2stg3._"
+              data-oid="mlu044j"
             >
               Login
             </button>
