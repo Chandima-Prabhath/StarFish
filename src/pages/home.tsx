@@ -2,9 +2,9 @@ import "./home.css";
 
 function HomePage() {
   return (
-    <div className="home-page fade-in" data-oid="iuse9ny">
-      <h1 data-oid="t_7qvcg">Home</h1>
-      <div data-oid="r:7b7m-"></div>
+    <div className="home-page fade-in" data-oid="l9plmej">
+      <h1 data-oid="xf07dqc">Home</h1>
+      <div data-oid="v4195kw"></div>
     </div>
   );
 }

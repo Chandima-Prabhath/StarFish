@@ -9,16 +9,16 @@ import { App as CapacitorApp } from "@capacitor/app";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 
-import BackendApiClient from './lib/BackendApiClient';
+import BackendApiClient from "./lib/BackendApiClient";
 import SplashScreen from "./components/screens/SplashScreen";
 
-import { defineCustomElements } from '@ionic/pwa-elements/loader';
-import { Toast } from '@capacitor/toast';
+import { defineCustomElements } from "@ionic/pwa-elements/loader";
+import { Toast } from "@capacitor/toast";
 
 // Call the element loader before the render call
 defineCustomElements(window);
 
-const showToast = async (msg:any) => {
+const showToast = async (msg: any) => {
   await Toast.show({
     text: msg,
   });
@@ -67,7 +67,7 @@ const RenderApp: React.FC = () => {
       try {
         const currentUser = await BackendApiClient.getCurrentUser();
         console.log("Current User:", currentUser);
-        showToast(`Welcome back, ${currentUser?.username}`)
+        showToast(`Welcome back, ${currentUser?.username}`);
         setIsSetupDone(!!currentUser); // Set to true if currentUser exists, false otherwise
       } catch (error) {
         console.error("Error fetching current user:", error);
@@ -78,25 +78,30 @@ const RenderApp: React.FC = () => {
   }, []);
 
   if (isSetupDone === null) {
-    return <SplashScreen/>;
+    return <SplashScreen data-oid="amqyzn6" />;
   }
 
   return (
     <>
       {isSetupDone ? (
-        <App />
+        <App data-oid="8_l_1q:" />
       ) : (
-        <FirstTimeSetup whenDone={(authToken) => { if (authToken) setIsSetupDone(true); }} />
+        <FirstTimeSetup
+          whenDone={(authToken) => {
+            if (authToken) setIsSetupDone(true);
+          }}
+          data-oid="5g.bp7v"
+        />
       )}
     </>
   );
 };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <BackButtonHandler />
-      <RenderApp />
+  <React.StrictMode data-oid="6_xfb1k">
+    <BrowserRouter data-oid="ejishto">
+      <BackButtonHandler data-oid="ehsa3ej" />
+      <RenderApp data-oid="kt:ik7i" />
     </BrowserRouter>
   </React.StrictMode>,
 );
