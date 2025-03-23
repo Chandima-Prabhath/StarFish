@@ -8,21 +8,13 @@ import HomePage from "./pages/home";
 
 function App() {
   return (
-    <div className="App fade-in" data-oid="944:0qc">
-      <Routes data-oid="hh_8mot">
-        <Route
-          path="/"
-          element={<HomePage data-oid="cip2mgr" />}
-          data-oid="_dgm23n"
-        />
+    <div className="App fade-in">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
 
-        <Route
-          path="/settings"
-          element={<SettingsPage data-oid="foadsu7" />}
-          data-oid="dh71_qb"
-        />
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
-      <BottomNavigation data-oid="04p9-m3" />
+      <BottomNavigation />
     </div>
   );
 }

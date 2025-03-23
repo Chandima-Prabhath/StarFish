@@ -9,10 +9,10 @@
   --color1: #1f2a40; /* Active elements and primary accents */
   --color2: #1c2733; /* Navigation background and secondary elements */
   --color3: #141c2a; /* App background */
-  --color4: #efc94c; /* Accent color for links and highlights */
+  --color4: #eac85b; /* Accent color for links and highlights */
   --color5: #32445a; /* Button background */
   --neutral-text: #e0e6ed; /* Main text color */
-  --highlight-text: #ff9f59; /* Highlighted text color */
+  --highlight-text: #ffae74; /* Highlighted text color */
 
   color: var(--neutral-text);
   background-color: var(--color3);
@@ -88,6 +88,7 @@ button:focus-visible {
 .navigation-bar {
   display: flex;
   width: 100%;
+  padding: 0.5em 0;
   justify-content: space-around;
   align-items: center;
   gap: 1em;
@@ -98,36 +99,42 @@ button:focus-visible {
 }
 
 .navigation-button {
-  flex: 1;
   justify-content: center;
   align-items: center;
   display: flex;
   gap: 0.5em;
-  margin: 0 0.5em;
-  padding: 0.8em;
+  padding: 0.3em 0;
   background-color: var(--color2);
   color: var(--color4);
   border-radius: 1em;
   text-align: center;
   font-weight: 500;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: all 0.5s ease, color 0.3s ease;
   text-decoration: none;
 }
 
 .navigation-button.active {
   background-color: var(--color1);
+  border: var(--highlight-text) 1px solid;
   color: var(--highlight-text);
+  border-radius: 25px;
+  padding-left: 5px;
+  padding-right: 5px;
+  scale: 1.1;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .navigation-button-icon {
-  width: 2em;
-  height: 2em;
+  width: 1.8em;
+  height: 1.8em;
 }
 
 .navigation-button span {
   opacity: 0;
+  display: none;
 }
 .navigation-button.active span {
+  display: block;
   opacity: 1;
   animation: fadeIn 0.5s ease-in-out;
 }

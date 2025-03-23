@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import "./index.css";
 import App from "./App";
-import FirstTimeSetup from "./pages/FirstTimeSetup";
+import Auth from "./pages/Auth";
 
 import { App as CapacitorApp } from "@capacitor/app";
 import { useEffect } from "react";
@@ -59,6 +59,16 @@ const BackButtonHandler: React.FC = () => {
   return null;
 };
 
+function saveUserInfo(user_id: number | null, username: string | null, first_name: string | null, last_name: string | null, email: string | null, bio: string | null, profile_picture: string | null) {
+  localStorage.setItem('user_id', user_id !== null ? user_id.toString() : '');
+  localStorage.setItem('username', username || '');
+  localStorage.setItem('first_name', first_name || '');
+  localStorage.setItem('last_name', last_name || '');
+  localStorage.setItem('email', email || '');
+  localStorage.setItem('bio', bio || '');
+  localStorage.setItem('profile_picture', profile_picture || '');
+}
+
 const RenderApp: React.FC = () => {
   const [isSetupDone, setIsSetupDone] = React.useState<boolean | null>(null);
 
@@ -66,31 +76,43 @@ const RenderApp: React.FC = () => {
     const getCurrentUser = async () => {
       try {
         const currentUser = await BackendApiClient.getCurrentUser();
-        console.log("Current User:", currentUser);
-        showToast(`Welcome back, ${currentUser?.username}`);
-        setIsSetupDone(!!currentUser); // Set to true if currentUser exists, false otherwise
+        if (currentUser) {
+          console.log("Current User:", currentUser);
+          showToast(`Welcome back, ${currentUser?.username}`);
+          setIsSetupDone(!!currentUser); // Set to true if currentUser exists, false otherwise
+          saveUserInfo(
+            currentUser.user_id || null,
+            currentUser.username || null,
+            currentUser.first_name || null,
+            currentUser.last_name || null,
+            currentUser.email || null,
+            currentUser.bio || null,
+            currentUser.profile_picture || null
+          );
+        } else {
+          setIsSetupDone(false); // Consider setup not done if currentUser is null
+        }
       } catch (error) {
         console.error("Error fetching current user:", error);
         setIsSetupDone(false); // Consider setup not done in case of error
       }
     };
     getCurrentUser();
-  }, []);
+  }, [isSetupDone]);
 
   if (isSetupDone === null) {
-    return <SplashScreen data-oid="9fl.bp0" />;
+    return <SplashScreen />;
   }
 
   return (
     <>
       {isSetupDone ? (
-        <App data-oid="jwtddew" />
+        <App />
       ) : (
-        <FirstTimeSetup
+        <Auth
           whenDone={(authToken) => {
             if (authToken) setIsSetupDone(true);
           }}
-          data-oid="_ue_wnh"
         />
       )}
     </>
@@ -98,10 +120,10 @@ const RenderApp: React.FC = () => {
 };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode data-oid="1euqy._">
-    <BrowserRouter data-oid="cmwk0n0">
-      <BackButtonHandler data-oid="u1e.hel" />
-      <RenderApp data-oid="y._zjiy" />
+  <React.StrictMode>
+    <BrowserRouter>
+      <BackButtonHandler />
+      <RenderApp />
     </BrowserRouter>
   </React.StrictMode>,
 );

@@ -3,12 +3,12 @@ import BackendApiClient from "../lib/BackendApiClient";
 import { Toast } from "@capacitor/toast";
 
 // Define the props interface for the component
-interface FirstTimeSetupProps {
+interface AuthProps {
   whenDone: (authToken?: string) => void; // Callback function to execute when setup is complete, optionally passing an authentication token
 }
 
 // Import the CSS module for styling
-import "./FirstTimeSetup.css";
+import "./Auth.css";
 
 // Helper function to display a toast message
 const showToast = async (msg: string) => {
@@ -18,7 +18,7 @@ const showToast = async (msg: string) => {
 };
 
 // Main functional component for the first-time setup screen
-const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
+const Auth: React.FC<AuthProps> = ({ whenDone }) => {
   // State to manage the current mode: 'login' or 'signup'
   const [mode, setMode] = useState<"login" | "signup">("login");
   // State for the username input
@@ -118,18 +118,15 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
   };
 
   return (
-    <div
-      className="first-time-setup fade-in rounded-[616px]"
-      data-oid="6hg4ggr"
-    >
-      <h1 data-oid="jnf9u31">{isLoginMode ? "Login" : "Sign Up"}</h1>
-      <p data-oid=":eb3u6s">
+    <div className="first-time-setup fade-in rounded-[616px]">
+      <h1>{isLoginMode ? "Login" : "Sign Up"}</h1>
+      <p>
         {isLoginMode
           ? "Welcome back! Please log in to continue."
           : "Create a new account to get started."}
       </p>
-
-      <p data-oid="m07fsro">
+          <div className="form">
+      <p>
         <input
           type="text"
           name="username"
@@ -137,12 +134,11 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
           placeholder="Your Username"
           value={username}
           onChange={(e) => handleInputChange(e, setUsername)}
-          data-oid="_:xk9si"
         />
       </p>
 
       {!isLoginMode && (
-        <p data-oid="as:q-08">
+        <p>
           <input
             type="email"
             name="email"
@@ -150,12 +146,11 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
             placeholder="Your Email"
             value={email}
             onChange={(e) => handleInputChange(e, setEmail)}
-            data-oid="yno1hy6"
           />
         </p>
       )}
 
-      <p data-oid="0wc0-vk">
+      <p>
         <input
           type="password"
           name="password"
@@ -163,42 +158,28 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
           placeholder="Password"
           value={password}
           onChange={(e) => handleInputChange(e, setPassword)}
-          data-oid="-fko:n_"
         />
       </p>
+      </div>
 
-      {errorMessage && (
-        <p className="error-message" data-oid="8zq8mk7">
-          {errorMessage}
-        </p>
-      )}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <button type="button" onClick={handleSubmit} data-oid="g7v4vpw">
+      <button type="button" onClick={handleSubmit}>
         {isLoginMode ? "Login" : "Sign Up"}
       </button>
 
-      <p className="toggle-mode" data-oid="b:s7hgr">
+      <p className="toggle-mode">
         {isLoginMode ? (
           <>
             Don't have an account?{" "}
-            <button
-              type="button"
-              className="link-button"
-              onClick={toggleMode}
-              data-oid="00wqq2_"
-            >
+            <button type="button" className="link-button" onClick={toggleMode}>
               Sign Up
             </button>
           </>
         ) : (
           <>
             Already have an account?{" "}
-            <button
-              type="button"
-              className="link-button"
-              onClick={toggleMode}
-              data-oid=".gbdjhy"
-            >
+            <button type="button" className="link-button" onClick={toggleMode}>
               Login
             </button>
           </>
@@ -208,4 +189,4 @@ const FirstTimeSetup: React.FC<FirstTimeSetupProps> = ({ whenDone }) => {
   );
 };
 
-export default FirstTimeSetup;
+export default Auth;

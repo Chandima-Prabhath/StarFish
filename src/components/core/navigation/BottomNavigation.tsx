@@ -1,30 +1,56 @@
-import { HomeIcon, CogIcon } from "@heroicons/react/20/solid";
+import { HomeIcon, CogIcon, MagnifyingGlassIcon, MapIcon, NewspaperIcon, UserIcon, UserCircleIcon } from "@heroicons/react/20/solid";
 import { NavLink, useLocation } from "react-router";
 
 function BottomNavigation() {
   const location = useLocation();
   return (
-    <nav className="navigation-bar" data-oid="uv0bb..">
+    <nav className="navigation-bar">
       <NavLink
         className={({ isActive }) =>
           isActive ? "navigation-button active" : "navigation-button"
         }
         to="/"
-        data-oid="zjvv72v"
       >
-        <HomeIcon className="navigation-button-icon" data-oid="h240c:2" />
-        <span data-oid="7vf52t0">Home</span>
+        <HomeIcon className="navigation-button-icon" />
+        <span>Home</span>
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? "navigation-button active" : "navigation-button"
+        }
+        to="/search"
+      >
+        <MagnifyingGlassIcon className="navigation-button-icon" />
+        <span>Search</span>
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? "navigation-button active" : "navigation-button"
+        }
+        to="/map"
+      >
+        <MapIcon className="navigation-button-icon" />
+        <span>Map</span>
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? "navigation-button active" : "navigation-button"
+        }
+        to="/events"
+      >
+        <NewspaperIcon className="navigation-button-icon" />
+        <span>Events</span>
       </NavLink>
       <NavLink
         className={({ isActive }) =>
           isActive ? "navigation-button active" : "navigation-button"
         }
         to="/settings"
-        data-oid="abtdf33"
       >
-        <CogIcon className="navigation-button-icon" data-oid="m-lh_e_" />
-        <span data-oid=":08nx85">Settings</span>
+        <UserIcon className="navigation-button-icon" />
+        <span>Profile</span>
       </NavLink>
+
     </nav>
   );
 }
