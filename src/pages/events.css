@@ -1,191 +1,276 @@
 /* Base Styles for Events Page */
 .events-page {
-    padding: 20px;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    color: var(--neutral-text, #e0e6ed);
-    background-color: var(--color3, #141c2a);
+  padding: 20px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: var(--neutral-text, #e0e6ed);
+  background-color: var(--color3, #141c2a);
+}
+
+/* Fade-in Animation */
+.fade-in {
+  animation: fadeIn 0.7s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  /* Fade-in Animation */
-  .fade-in {
-    animation: fadeIn 0.7s ease-out;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Search Bar */
-  .search-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto 20px;
-  }
-  
-  .search-input {
-    width: 100%;
-    padding: 12px 20px;
-    border-radius: 50px;
-    border: 1px solid var(--highlight-text, #ffae74);
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--neutral-text, #e0e6ed);
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  .search-input::placeholder {
-    color: #ccc;
-  }
-  
-  .search-input:focus {
-    border-color: var(--color1, #eac85b);
-  }
-  
-  /* Event Categories Section */
-  .event-categories h2 {
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--highlight-text, #ffae74);
-  }
-  
-  .categories-list {
-    display: flex;
-    overflow-x: auto;
-    gap: 10px;
-    padding-bottom: 10px;
-  }
-  
-  .category-chip {
-    flex: 0 0 auto;
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: 1px solid var(--highlight-text, #ffae74);
-    background-color: transparent;
-    color: var(--neutral-text, #e0e6ed);
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .category-chip:hover {
-    background-color: var(--highlight-text, #ffae74);
-    color: var(--color3, #141c2a);
-    transform: translateY(-2px);
-  }
-  
-  /* Trending Events Section */
-  .trending-events h2 {
-    margin: 20px 0 10px;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--highlight-text, #ffae74);
-  }
-  
-  /* Grid Layout for Event Cards */
-  .events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-  }
-  
-  /* Event Card Styles */
-  .event-card {
-    background-color: rgba(28, 39, 51, 0.8);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .event-card:hover {
-    transform: translateY(-4px);
-  }
-  
-  .card-image img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-  }
-  
-  .card-content {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .event-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin: 0;
-  }
-  
-  .event-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    color: var(--highlight-text, #ffae74);
-  }
-  
-  .event-description {
-    font-size: 0.9rem;
-    color: #ccc;
-    flex-grow: 1;
+}
+
+/* Search Bar */
+.search-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: 1px solid var(--highlight-text, #ffae74);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--neutral-text, #e0e6ed);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: #ccc;
+}
+
+.search-input:focus {
+  border-color: var(--color1, #eac85b);
+}
+
+/* Event Categories Section */
+.event-categories h2 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--highlight-text, #ffae74);
+}
+
+.categories-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding-bottom: 10px;
+}
+
+.category-chip {
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--highlight-text, #ffae74);
+  background-color: transparent;
+  color: var(--neutral-text, #e0e6ed);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.category-chip:hover {
+  background-color: var(--highlight-text, #ffae74);
+  color: var(--color3, #141c2a);
+  transform: translateY(-2px);
+}
+
+/* Trending Events Section */
+.trending-events h2 {
+  margin: 20px 0 10px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--highlight-text, #ffae74);
+}
+
+/* Grid Layout for Event Cards */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Event Card Styles */
+.event-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-image img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.event-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--highlight-text, #ffae74);
+}
+
+.event-description {
+  font-size: 0.9rem;
+  color: #ccc;
+  flex-grow: 1;
   }
 
-  .event-category{
-    color: var(--highlight-text, #ffae74);
-    padding: 2px 5px;
-    border-radius: 50px;
-    border: 1px solid var(--highlight-text, #ffae74);
+.event-category {
+  color: var(--highlight-text, #ffae74);
+  padding: 2px 5px;
+  border-radius: 50px;
+  border: 1px solid var(--highlight-text, #ffae74);
+}
+
+.btn.view-details {
+  align-self: flex-end;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  background-color: var(--highlight-text, #ffae74);
+  color: var(--color3, #141c2a);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn.view-details:hover {
+  background-color: var(--color1, #eac85b);
+}
+
+/* Scrollbar Styling for Categories List */
+.categories-list::-webkit-scrollbar {
+  height: 6px;
+}
+
+.categories-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.categories-list::-webkit-scrollbar-thumb {
+  background-color: var(--highlight-text, #ffae74);
+  border-radius: 3px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .events-grid {
+    grid-template-columns: 1fr;
   }
-  
-  .btn.view-details {
-    align-self: flex-end;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 20px;
-    background-color: var(--highlight-text, #ffae74);
-    color: var(--color3, #141c2a);
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+}
+
+/* Skeleton Styles */
+.skeleton {
+  background-color: rgba(255, 255, 255, 0.1); /* Light background for placeholders */
+  border-radius: 10px; /* Match event-card border-radius */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column; /* Match event-card flex direction */
+  justify-content: space-between; /* Match event-card justify content */
+  height: auto; /* Adjust height based on content */
+  gap: 10px;
+}
+
+.skeleton-image {
+  height: 180px; /* Match card-image height */
+  background-color: rgba(255, 255, 255, 0.05); /* Slightly darker for contrast */
+}
+
+.skeleton .card-content {
+  padding: 15px; /* Match card-content padding */
+  display: flex;
+  flex-direction: column; /* Match event-card flex direction */
+}
+.skeleton-title {
+  height: 1.2rem; /* Approximate height of event-title */
+  background-color: rgba(255, 255, 255, 0.05);
+  margin-bottom: 10px; /* Match spacing */
+}
+
+.skeleton .event-meta {
+    display: flex;
+    justify-content: space-between;
+    height: 0.85rem; /* Approximate height of event-meta */
+    margin-bottom: 8px; /* Approximate spacing */
+    gap: 10px;
+}
+
+.skeleton-text {
+    height: 0.9rem; /* Approximate height of event-description */
+    background-color: rgba(255, 255, 255, 0.05);
+    margin-bottom: 10px; /* Approximate spacing */
+    width: 100%; /* Adjust width as needed */
+}
+
+
+.skeleton .view-details {
+  align-self: flex-end; /* Match button alignment */
+  height: 36px; /* Approximate height of the button */
+  width: 120px; /* Approximate width of the button */
+  border-radius: 20px; /* Match button border-radius */
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-chip{
+    height: 30px; /* Approximate height of category-chip */
+    min-width: 80px; /* Match min-width */
+    margin-right: 10px; /* Match gap */
+    border-radius: 20px; /* Match border-radius */
+    padding: 8px 16px; /* Match padding */
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Optional: Shimmer Animation */
+.skeleton {
+  position: relative;
+}
+
+.skeleton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
   }
-  
-  .btn.view-details:hover {
-    background-color: var(--color1, #eac85b);
+  100% {
+    transform: translateX(100%);
   }
-  
-  /* Scrollbar Styling for Categories List */
-  .categories-list::-webkit-scrollbar {
-    height: 6px;
-  }
-  
-  .categories-list::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  .categories-list::-webkit-scrollbar-thumb {
-    background-color: var(--highlight-text, #ffae74);
-    border-radius: 3px;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 600px) {
-    .events-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-  
+}
