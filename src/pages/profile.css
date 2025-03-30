@@ -1,168 +1,228 @@
 /* Profile Page Base */
 .profile-page {
-    background-image: linear-gradient(
-      transparent,
+  background-image: linear-gradient(transparent,
       var(--color2) 80%,
-      var(--color3) 100%
-    );
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: top;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    margin-bottom: 70px;
-  }
-  
-  .profile-header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .profile-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  /* Profile Card Container */
-  .profile-container {
-    background-color: rgba(28, 39, 51, 0.8);
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  }
-  
-  .profile-picture {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border: 3px solid var(--color1);
-  }
-  
-  .profile-name {
-    font-size: 1.5em;
-    margin-bottom: 5px;
-  }
-  
-  .profile-username{
-    color: var(--color1);
-    font-size: 1.1rem;
+      var(--color3) 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  margin-bottom: 70px;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Profile Card Container */
+.profile-container {
+  background-color: rgba(28, 39, 51, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 3px solid var(--color1);
+}
+
+.profile-name {
+  font-size: 1.5em;
+  margin-bottom: 5px;
+}
+
+.profile-username {
+  color: var(--color1);
+  font-size: 1.1rem;
+}
+
+.profile-email,
+.profile-bio {
+  color: var(--highlight-text);
+}
+
+.profile-bio {
+  font-style: italic;
+}
+
+/* Edit / Logout Buttons */
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.edit-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+  color: var(--color5);
+}
+
+.edit-profile {
+  background-color: var(--color5);
+  color: var(--neutral-text);
+}
+
+.edit-profile:hover {
+  background-color: var(--color1);
+}
+
+.cropper-container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: var(--color3);
+}
+
+
+.logout {
+  background-color: var(--color4);
+  color: var(--color3);
+}
+
+.logout:hover {
+  background-color: var(--color1);
+  color: var(--color3);
+}
+
+/* Settings Container */
+.settings-container {
+  background-color: rgba(28, 39, 51, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.settings-title {
+  margin-bottom: 10px;
+  color: var(--highlight-text);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Each Setting Item */
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--color5);
+}
+
+.setting-label {
+  font-weight: bold;
+  color: var(--neutral-text);
+}
+
+.setting-value {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--highlight-text);
+  text-align: right;
+}
+
+/* Icon used in settings */
+.setting-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--color5);
+  /* Or var(--color1) if you prefer */
+}
+
+/* Fade-in animation */
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
 
-  .profile-email,
-  .profile-bio {
-    color: var(--highlight-text);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .profile-bio {
-    font-style: italic;
-  }
-  
-  /* Edit / Logout Buttons */
-  .profile-actions {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  
-  .edit-profile {
-    background-color: var(--color5);
-    color: var(--neutral-text);
-  }
-  
-  .edit-profile:hover {
-    background-color: var(--color1);
-  }
-  
-  .logout {
-    background-color: var(--color4);
-    color: var(--color3);
-  }
-  
-  .logout:hover {
-    background-color: var(--color1);
-    color: var(--color3);
-  }
-  
-  /* Settings Container */
-  .settings-container {
-    background-color: rgba(28, 39, 51, 0.8);
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  }
-  
-  .settings-title {
-    margin-bottom: 10px;
-    color: var(--highlight-text);
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-  
-  .settings-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  /* Each Setting Item */
-  .setting-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 0;
-    border-bottom: 1px solid var(--color5);
-  }
-  
-  .setting-label {
-    font-weight: bold;
-    color: var(--neutral-text);
-  }
-  
-  .setting-value {
-    width: 50%;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--highlight-text);
-    text-align: right;
-  }
-  
-  /* Icon used in settings */
-  .setting-icon {
-    width: 1.2rem;
-    height: 1.2rem;
-    color: var(--color5); /* Or var(--color1) if you prefer */
-  }
-  
-  /* Fade-in animation */
-  .fade-in {
-    animation: fadeIn 0.5s ease-out;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
+}
+
+/* Cropper Modal Styles */
+.cropper-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.cropper-content {
+  background-image: linear-gradient(var(--color4), var(--color1));
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+  padding: 10px;
+  text-align: center;
+}
+
+.cropper-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.upload-success {
+  margin-top: 10px;
+  color: green;
+  font-weight: bold;
+}
+
+/* Optional: Spinner styling for uploading state */
+.btn.upload[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

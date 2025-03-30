@@ -1211,6 +1211,11 @@ react-dom@^19.0.0-rc.1:
   dependencies:
     scheduler "0.25.0-rc.1"
 
+react-image-crop@^11.0.7:
+  version "11.0.7"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-11.0.7.tgz#25f3d37ccbb65a05d19d23b4740a5912835c741e"
+  integrity sha512-ZciKWHDYzmm366JDL18CbrVyjnjH0ojufGDmScfS4ZUqLHg4nm6ATY+K62C75W4ZRNt4Ii+tX0bSjNk9LQ2xzQ==
+
 react-leaflet@^5.0.0-rc.2:
   version "5.0.0-rc.2"
   resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-5.0.0-rc.2.tgz#f87ea6fda99a50e6ca5ee14cb2b00df07b0bada4"

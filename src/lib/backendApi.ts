@@ -1,4 +1,4 @@
-import { CapacitorHttp as Http } from '@capacitor/core';
+import { CapacitorHttp as Http } from '@capacitor/core'
 
 /**
  * API Client for FastAPI backend.
@@ -131,7 +131,12 @@ class ApiClient {
     // If a token is stored and Authorization is not already provided, add it.
     if (this.token && !finalHeaders["Authorization"]) {
       finalHeaders["Authorization"] = `Bearer ${this.token}`;
-      console.log('Using Auth header',finalHeaders);
+      console.log('Using Auth header', finalHeaders);
+    }
+
+    // If data is FormData, let the browser set the correct Content-Type with proper boundaries.
+    if (data instanceof FormData) {
+      delete finalHeaders["Content-Type"];
     }
 
     const options: any = {
@@ -144,7 +149,7 @@ class ApiClient {
       if (finalHeaders["Content-Type"] === "application/json") {
         options.data = data;
       } else {
-        // For other content types, such as form URL encoded, send as string.
+        // For other content types, send the data as is.
         options.data = data;
       }
     }
@@ -196,6 +201,16 @@ class ApiClient {
   }
 
   /**
+   * Upload a profile picture for the current user.
+   * Expects a File object.
+   */
+  async uploadProfilePicture(file: File): Promise<UserResponse> {
+    const formData = new FormData();
+    formData.append("file", file);
+    return this.request<UserResponse>("/api/v1/user/upload-profile-picture", "POST", formData);
+  }
+
+  /**
    * Create a new location.
    */
   async createLocation(locationData: LocationData): Promise<LocationResponse> {
@@ -239,7 +254,6 @@ class ApiClient {
     return categories.map(category => ({
       category: category
     }));
-
   }
 
   /**
