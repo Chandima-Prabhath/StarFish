@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import BackendApiClient from "../lib/BackendApiClient";
 import { Toast } from "@capacitor/toast";
 import "./Auth.css";
-import {
-  EyeIcon,
-  EyeSlashIcon
-} from "@heroicons/react/20/solid";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 
 interface AuthProps {
   whenDone: (authToken?: string) => void;
@@ -30,8 +27,9 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Error state
+  // Error and loading states
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const isLoginMode = mode === "login";
 
@@ -52,6 +50,7 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
   // Handle form submission
   const handleSubmit = async () => {
     setErrorMessage("");
+    setLoading(true);
 
     if (isLoginMode) {
       // ** LOGIN LOGIC **
@@ -59,6 +58,7 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
         const msg = "Please enter your username and password.";
         setErrorMessage(msg);
         showToast(msg);
+        setLoading(false);
         return;
       }
       try {
@@ -66,13 +66,14 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
         if (response?.access_token) {
           // Save auth token & proceed
           whenDone(response.access_token);
+          await showToast("Login successful!");
         } else if (response?.error) {
           setErrorMessage(response.error);
-          showToast(response.error);
+          await showToast(response.error);
         } else {
           const msg = "Login failed. Please try again.";
           setErrorMessage(msg);
-          showToast(msg);
+          await showToast(msg);
         }
       } catch (error: any) {
         console.error("Login error:", error);
@@ -81,7 +82,7 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
           error.message ||
           "An unexpected error occurred during login.";
         setErrorMessage(msg);
-        showToast(msg);
+        await showToast(msg);
       }
     } else {
       // ** SIGNUP LOGIC **
@@ -90,6 +91,7 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
           "Please enter a username, email, password, first name, and last name.";
         setErrorMessage(msg);
         showToast(msg);
+        setLoading(false);
         return;
       }
       try {
@@ -104,11 +106,11 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
         if (response?.user_id) {
           // On success, switch to login mode
           setMode("login");
-          showToast("Signup successful! Please log in.");
+          await showToast("Signup successful! Please log in.");
         } else {
           const msg = "Signup failed. Please try again.";
           setErrorMessage(msg);
-          showToast(msg);
+          await showToast(msg);
         }
       } catch (error: any) {
         console.error("Signup error:", error);
@@ -117,9 +119,10 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
           error.message ||
           "An unexpected error occurred during signup.";
         setErrorMessage(msg);
-        showToast(msg);
+        await showToast(msg);
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -140,6 +143,7 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
             placeholder="Username"
             value={username}
             onChange={(e) => handleInputChange(e, setUsername)}
+            disabled={loading}
           />
         </div>
 
@@ -151,6 +155,7 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
               placeholder="Email"
               value={email}
               onChange={(e) => handleInputChange(e, setEmail)}
+              disabled={loading}
             />
           </div>
         )}
@@ -164,6 +169,7 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
                 placeholder="First Name"
                 value={firstName}
                 onChange={(e) => handleInputChange(e, setFirstName)}
+                disabled={loading}
               />
             </div>
             <div className="input-group">
@@ -172,6 +178,7 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
                 placeholder="Last Name"
                 value={lastName}
                 onChange={(e) => handleInputChange(e, setLastName)}
+                disabled={loading}
               />
             </div>
           </div>
@@ -184,11 +191,13 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
             placeholder="Password"
             value={password}
             onChange={(e) => handleInputChange(e, setPassword)}
+            disabled={loading}
           />
           <button
             type="button"
             className="toggle-password"
             onClick={() => setShowPassword(!showPassword)}
+            disabled={loading}
           >
             {showPassword ? (
               <EyeSlashIcon className="password-icon" />
@@ -206,13 +215,17 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={() => setRememberMe(!rememberMe)}
+                disabled={loading}
               />
               Remember me
             </label>
             <button
               type="button"
               className="forgot-password link-button"
-              onClick={() => showToast("Forgot password flow not implemented.")}
+              onClick={() =>
+                showToast("Forgot password flow not implemented.")
+              }
+              disabled={loading}
             >
               Forgot Password?
             </button>
@@ -223,9 +236,20 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
       {/* Error Message */}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      {/* Submit Button */}
-      <button type="button" className="auth-submit" onClick={handleSubmit}>
-        {isLoginMode ? "Login" : "Sign Up"}
+      {/* Submit Button with loading indicator */}
+      <button
+        type="button"
+        className="auth-submit"
+        onClick={handleSubmit}
+        disabled={loading}
+      >
+        {loading
+          ? isLoginMode
+            ? "Logging in..."
+            : "Signing up..."
+          : isLoginMode
+          ? "Login"
+          : "Sign Up"}
       </button>
 
       {/* Toggle Mode Link */}
@@ -237,6 +261,7 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
               type="button"
               className="link-button"
               onClick={toggleMode}
+              disabled={loading}
             >
               Sign Up
             </button>
@@ -248,6 +273,7 @@ const Auth: React.FC<AuthProps> = ({ whenDone }) => {
               type="button"
               className="link-button"
               onClick={toggleMode}
+              disabled={loading}
             >
               Login
             </button>
