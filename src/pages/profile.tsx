@@ -236,42 +236,47 @@ function ProfilePage() {
       <div className="profile-content">
         {/* Profile Card */}
         <div className="profile-container fade-in">
-          <div
-            className="profile-picture-container"
-            style={{ position: "relative", display: "inline-block" }}
-          >
-            <img
-              src={profilePicture || "https://placehold.co/150"}
-              alt="Profile"
-              className="profile-picture"
-            />
+          <div className="top-profile-section">
             <div
-              className="edit-icon"
-              onClick={handleEditClick}
-              title="Change Profile Picture"
-              style={{
-                position: "absolute",
-                bottom: "1rem",
-                right: ".5rem",
-                cursor: "pointer"
-              }}
+              className="profile-picture-container"
+              style={{ position: "relative", display: "inline-block" }}
             >
-              <PencilIcon style={{ width: "20px", height: "20px" }} />
+              <img
+                src={profilePicture || "https://placehold.co/150"}
+                alt="Profile"
+                className="profile-picture"
+              />
+              <div
+                className="edit-icon"
+                onClick={handleEditClick}
+                title="Change Profile Picture"
+                style={{
+                  position: "absolute",
+                  bottom: ".4rem",
+                  right: ".2rem",
+                  cursor: "pointer"
+                }}
+              >
+                <PencilIcon style={{ width: "20px", height: "20px" }} />
+              </div>
+              {/* Hidden file input */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
             </div>
-            {/* Hidden file input */}
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-            />
+            <div>
+              <h3 className="profile-name">
+                {firstName} {lastName}
+              </h3>
+              <p className="profile-username">@{username}</p>
+              <p className="profile-email">{email}</p>
+            </div>
           </div>
-          <h3 className="profile-name">
-            {firstName} {lastName}
-          </h3>
-          <p className="profile-username">@{username}</p>
-          <p className="profile-email">{email}</p>
+          
           <p className="profile-bio">{bio}</p>
 
           <div className="profile-actions">
@@ -352,7 +357,7 @@ function ProfilePage() {
                   onClick={handleUploadCroppedImage}
                   disabled={uploading}
                 >
-                  {uploading ?<> <ArrowUpTrayIcon className="setting-icon"/>Uploading</>:<> <CheckCircleIcon className="setting-icon" />Done</>}
+                  {uploading ? <> <ArrowUpTrayIcon className="setting-icon" />Uploading</> : <> <CheckCircleIcon className="setting-icon" />Done</>}
                 </button>
                 <button
                   className="btn cancel"
@@ -361,7 +366,7 @@ function ProfilePage() {
                     setSelectedImage(null);
                   }}
                 >
-                  <XMarkIcon className="setting-icon"/> Close
+                  <XMarkIcon className="setting-icon" /> Close
                 </button>
               </div>
               <ReactCrop
