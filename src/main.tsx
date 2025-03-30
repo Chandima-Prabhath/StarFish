@@ -71,6 +71,7 @@ function saveUserInfo(user_id: number | null, username: string | null, first_nam
 
 const RenderApp: React.FC = () => {
   const [isSetupDone, setIsSetupDone] = React.useState<boolean | null>(null);
+  const [trigger, setTrigger] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const getCurrentUser = async () => {
@@ -79,7 +80,6 @@ const RenderApp: React.FC = () => {
         if (currentUser) {
           console.log("Current User:", currentUser);
           showToast(`Welcome back, ${currentUser?.username}`);
-          setIsSetupDone(!!currentUser); // Set to true if currentUser exists, false otherwise
           saveUserInfo(
             currentUser.user_id || null,
             currentUser.username || null,
@@ -89,6 +89,7 @@ const RenderApp: React.FC = () => {
             currentUser.bio || null,
             currentUser.profile_picture || null
           );
+          setIsSetupDone(!!currentUser); // Set to true if currentUser exists, false otherwise
         } else {
           setIsSetupDone(false); // Consider setup not done if currentUser is null
         }
@@ -98,7 +99,7 @@ const RenderApp: React.FC = () => {
       }
     };
     getCurrentUser();
-  }, [isSetupDone]);
+  }, [trigger]);
 
   if (isSetupDone === null) {
     return <SplashScreen />;
@@ -111,7 +112,12 @@ const RenderApp: React.FC = () => {
       ) : (
         <Auth
           whenDone={(authToken) => {
-            if (authToken) setIsSetupDone(true);
+            if (authToken) {
+              setTrigger(!trigger);
+              setTimeout(() => {
+                setIsSetupDone(true)
+              }, 5000);
+            };
           }}
         />
       )}
