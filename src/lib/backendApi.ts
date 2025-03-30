@@ -1,10 +1,11 @@
-import { CapacitorHttp as Http } from '@capacitor/core'
+import { Capacitor, CapacitorHttp as Http } from '@capacitor/core'
 
 /**
  * API Client for FastAPI backend.
  *
  * This client abstracts the endpoints defined in your backend.
- * It uses the Capacitor HTTP plugin for network requests.
+ * It uses the Capacitor HTTP plugin for network requests on the web,
+ * and falls back to the native fetch API on native platforms for multipart uploads.
  *
  * Example usage:
  * const client = new ApiClient("http://localhost:8000");
@@ -152,11 +153,7 @@ class ApiClient {
     };
 
     if (data) {
-      if (finalHeaders["Content-Type"] === "application/json") {
-        options.data = data;
-      } else {
-        options.data = data;
-      }
+      options.data = data;
     }
 
     const response = await Http.request(options);
@@ -217,10 +214,35 @@ class ApiClient {
     return this.request<{ detail: string }>(`/api/v1/user/${userId}`, "DELETE");
   }
 
+  /**
+   * Upload a profile picture.
+   * On web platforms, uses CapacitorHttp.
+   * On native platforms, uses fetch with FormData.
+   */
   async uploadProfilePicture(file: File): Promise<UserResponse> {
     const formData = new FormData();
     formData.append("file", file);
-    return this.request<UserResponse>("/api/v1/user/upload-profile-picture", "POST", formData);
+    if (Capacitor.isNativePlatform()) {
+      // Use fetch for native platforms
+      const token = this.token;
+      const response = await fetch(`${this.baseUrl}/api/v1/user/upload-profile-picture`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          ...(token ? { "Authorization": `Bearer ${token}` } : {}),
+          // Do not set Content-Type header; let the browser set it with the proper boundary.
+        },
+      });
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error ${response.status}: ${errorText}`);
+      }
+      const data = await response.json();
+      return data as UserResponse;
+    } else {
+      // Use CapacitorHttp on web
+      return this.request<UserResponse>("/api/v1/user/upload-profile-picture", "POST", formData);
+    }
   }
 
   // -----------------------

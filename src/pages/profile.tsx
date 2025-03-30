@@ -2,8 +2,11 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import "./profile.css";
 import "react-image-crop/dist/ReactCrop.css";
 import {
+  ArrowUpTrayIcon,
   BeakerIcon,
-  InformationCircleIcon
+  CheckCircleIcon,
+  InformationCircleIcon,
+  XMarkIcon
 } from "@heroicons/react/20/solid";
 import { CodeBracketIcon, PencilIcon } from "@heroicons/react/24/solid";
 import { App as CapacitorApp } from "@capacitor/app";
@@ -163,7 +166,9 @@ function ProfilePage() {
     setUploading(true);
     setUploadSuccess(false);
     try {
-      const updatedUser = await BackendApiClient.uploadProfilePicture(blob as File);
+      // Convert Blob to a File instance (with a name and type)
+      const file = new File([blob], "profile.jpg", { type: "image/jpeg" });
+      const updatedUser = await BackendApiClient.uploadProfilePicture(file);
       if (updatedUser.profile_picture) {
         setProfilePicture(updatedUser.profile_picture);
         localStorage.setItem("profile_picture", updatedUser.profile_picture);
@@ -178,6 +183,7 @@ function ProfilePage() {
     setCrop({ unit: "%", x: 25, y: 25, width: 50, height: 50 });
     setCompletedCrop(null);
   };
+
 
   // Open edit profile modal and prefill fields
   const openEditProfile = () => {
@@ -331,11 +337,6 @@ function ProfilePage() {
                   Cancel
                 </button>
               </div>
-              {editSuccess && !editLoading && (
-                <div className="upload-success">
-                  Profile updated successfully!
-                </div>
-              )}
             </div>
           </div>
         )}
@@ -344,7 +345,25 @@ function ProfilePage() {
         {showCropUI && selectedImage && (
           <div className="cropper-modal">
             <div className="cropper-content">
-              <h3>Crop Your Image</h3>
+              <div className="cropper-buttons">
+                <h3>Crop Image</h3>
+                <button
+                  className="btn upload"
+                  onClick={handleUploadCroppedImage}
+                  disabled={uploading}
+                >
+                  {uploading ?<> <ArrowUpTrayIcon className="setting-icon"/>Uploading</>:<> <CheckCircleIcon className="setting-icon" />Done</>}
+                </button>
+                <button
+                  className="btn cancel"
+                  onClick={() => {
+                    setShowCropUI(false);
+                    setSelectedImage(null);
+                  }}
+                >
+                  <XMarkIcon className="setting-icon"/> Close
+                </button>
+              </div>
               <ReactCrop
                 crop={crop}
                 ruleOfThirds
@@ -358,29 +377,7 @@ function ProfilePage() {
                   alt="Crop source"
                 />
               </ReactCrop>
-              <div className="cropper-buttons">
-                <button
-                  className="btn upload"
-                  onClick={handleUploadCroppedImage}
-                  disabled={uploading}
-                >
-                  {uploading ? "Uploading..." : "Upload Cropped Image"}
-                </button>
-                <button
-                  className="btn cancel"
-                  onClick={() => {
-                    setShowCropUI(false);
-                    setSelectedImage(null);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-              {uploadSuccess && !uploading && (
-                <div className="upload-success">
-                  Profile picture updated!
-                </div>
-              )}
+
             </div>
           </div>
         )}

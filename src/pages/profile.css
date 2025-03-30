@@ -194,31 +194,36 @@
   backdrop-filter: blur(5px);;
   z-index: 1000;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
-  padding: 20px;
 }
 
 .cropper-content {
   background-image: linear-gradient(var(--color4), var(--color1));
   border-radius: 10px;
   width: 100%;
-  max-width: 500px;
-  padding: 10px;
+  max-width: 300px;
+  overflow: auto;
+  padding: 15px;
   text-align: center;
+  margin-bottom: 50px;
 }
 
 .cropper-buttons {
-  margin-top: 10px;
   display: flex;
   justify-content: center;
+  align-items: center;;
   gap: 10px;
 }
 
-.upload-success {
-  margin-top: 10px;
-  color: green;
-  font-weight: bold;
+.btn.upload, .btn.cancel{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border-radius: 10px;
+  height: 2.5rem;
+  padding: 5px;
 }
 
 /* Optional: Spinner styling for uploading state */
