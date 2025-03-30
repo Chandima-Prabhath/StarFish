@@ -3,14 +3,14 @@ import "./profile.css";
 import "react-image-crop/dist/ReactCrop.css";
 import {
   BeakerIcon,
-  InformationCircleIcon,
+  InformationCircleIcon
 } from "@heroicons/react/20/solid";
 import { CodeBracketIcon, PencilIcon } from "@heroicons/react/24/solid";
 import { App as CapacitorApp } from "@capacitor/app";
 import ReactCrop, { Crop, centerCrop, makeAspectCrop } from "react-image-crop";
 import BackendApiClient from "../lib/BackendApiClient";
 
-// Helper function to get a centered square crop.
+// Helper function to get a centered square crop
 function centerAspectCrop(
   mediaWidth: number,
   mediaHeight: number,
@@ -31,16 +31,13 @@ function centerAspectCrop(
   );
 }
 
-// Confirm logout before proceeding.
 function logout() {
-  if (window.confirm("Are you sure you want to logout?")) {
-    localStorage.clear();
-    window.location.href = "/";
-  }
+  localStorage.clear();
+  window.location.href = "/";
 }
 
 function ProfilePage() {
-  // User Info State
+  // User info state including userId
   const [userId, setUserId] = useState<number | null>(null);
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -52,32 +49,39 @@ function ProfilePage() {
   const [appVersion, setAppVersion] = useState("Loading...");
   const [appBuildNumber, setAppBuildNumber] = useState("Loading...");
 
-  // Crop State
+  // Crop related state
   const [showCropUI, setShowCropUI] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [crop, setCrop] = useState<Crop>({ unit: '%', x: 25, y: 25, width: 50, height: 50 });
+  const [crop, setCrop] = useState<Crop>({
+    unit: '%',
+    x: 25,
+    y: 25,
+    width: 50,
+    height: 50,
+  });
   const [completedCrop, setCompletedCrop] = useState<Crop | null>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Upload and Edit Status State
+  // Upload state
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+
+  // Edit profile modal state
   const [editingProfile, setEditingProfile] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [editSuccess, setEditSuccess] = useState(false);
-  const [updateError, setUpdateError] = useState<string | null>(null);
-
-  // Edit Form Fields
   const [editFirstName, setEditFirstName] = useState("");
   const [editLastName, setEditLastName] = useState("");
   const [editEmail, setEditEmail] = useState("");
   const [editBio, setEditBio] = useState("");
 
-  // Load user info and app details from localStorage and CapacitorApp
   useEffect(() => {
+    // Load user info from localStorage, including the user_id
     const storedUserId = localStorage.getItem("user_id");
-    if (storedUserId) setUserId(parseInt(storedUserId));
+    if (storedUserId) {
+      setUserId(parseInt(storedUserId));
+    }
     setUsername(localStorage.getItem("username") || "");
     setFirstName(localStorage.getItem("first_name") || "");
     setLastName(localStorage.getItem("last_name") || "");
@@ -92,25 +96,27 @@ function ProfilePage() {
     });
   }, []);
 
-  // File input trigger for profile picture update
-  const handleEditClick = useCallback(() => {
-    fileInputRef.current?.click();
-  }, []);
+  // Open file input for profile picture change
+  const handleEditClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
-  // Handle image selection and load crop UI.
-  const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  // When a file is selected, load and show crop UI
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const reader = new FileReader();
-      reader.onload = () => {
+      reader.addEventListener("load", () => {
         setSelectedImage(reader.result as string);
         setShowCropUI(true);
-      };
+      });
       reader.readAsDataURL(file);
     }
-  }, []);
+  };
 
-  // Setup initial crop when image loads.
+  // Compute a centered 1:1 crop on image load
   const onImageLoaded = useCallback((img: HTMLImageElement) => {
     imageRef.current = img;
     const { naturalWidth, naturalHeight } = img;
@@ -119,7 +125,7 @@ function ProfilePage() {
     return false;
   }, []);
 
-  // Generate a blob from the cropped image.
+  // Generate cropped image blob from the crop selection
   const getCroppedImgBlob = async (): Promise<Blob | null> => {
     if (!imageRef.current || !completedCrop) return null;
     const image = imageRef.current;
@@ -142,12 +148,16 @@ function ProfilePage() {
       completedCrop.height!
     );
     return new Promise((resolve) => {
-      canvas.toBlob((blob) => resolve(blob), "image/jpeg", 0.8);
+      canvas.toBlob(
+        (blob) => resolve(blob),
+        "image/jpeg",
+        0.8
+      );
     });
   };
 
-  // Upload the new profile picture.
-  const handleUploadCroppedImage = useCallback(async () => {
+  // Upload the cropped image as the new profile picture
+  const handleUploadCroppedImage = async () => {
     const blob = await getCroppedImgBlob();
     if (!blob) return;
     setUploading(true);
@@ -167,36 +177,26 @@ function ProfilePage() {
     setSelectedImage(null);
     setCrop({ unit: "%", x: 25, y: 25, width: 50, height: 50 });
     setCompletedCrop(null);
-  }, [completedCrop]);
+  };
 
-  // Open the edit profile modal and prefill fields.
-  const openEditProfile = useCallback(() => {
+  // Open edit profile modal and prefill fields
+  const openEditProfile = () => {
     setEditFirstName(firstName);
     setEditLastName(lastName);
     setEditEmail(email);
     setEditBio(bio);
     setEditingProfile(true);
     setEditSuccess(false);
-    setUpdateError(null);
-  }, [firstName, lastName, email, bio]);
+  };
 
-  // Validate email format (basic).
-  const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
-
-  // Save profile changes via API.
-  const handleSaveProfile = useCallback(async () => {
+  // Save profile changes via API using updateUser(userId, userData)
+  const handleSaveProfile = async () => {
     if (userId === null) {
       console.error("User ID is missing. Cannot update profile.");
       return;
     }
-    // Validate inputs before sending
-    if (!editEmail || !isValidEmail(editEmail)) {
-      setUpdateError("Please enter a valid email address.");
-      return;
-    }
     setEditLoading(true);
     setEditSuccess(false);
-    setUpdateError(null);
     try {
       const updatedUser = await BackendApiClient.updateUser(userId, {
         first_name: editFirstName,
@@ -204,7 +204,7 @@ function ProfilePage() {
         email: editEmail,
         bio: editBio,
       });
-      // Update local state and storage.
+      // Update local state and storage
       setFirstName(updatedUser.first_name || "");
       setLastName(updatedUser.last_name || "");
       setEmail(updatedUser.email || "");
@@ -217,21 +217,19 @@ function ProfilePage() {
       setEditingProfile(false)
     } catch (error) {
       console.error("Failed to update profile:", error);
-      setUpdateError("Profile update failed. Please try again later.");
     }
     setEditLoading(false);
-  }, [userId, editFirstName, editLastName, editEmail, editBio]);
+  };
 
   return (
     <div className="profile-page scroll-page fade-in">
-      <header className="profile-header">
+      <div className="profile-header">
         <h1 className="highlight-text">Profile</h1>
-      </header>
+      </div>
 
-      <main className="profile-content">
+      <div className="profile-content">
         {/* Profile Card */}
-        <section className="profile-container fade-in">
-        {/* Profile Card */}
+        <div className="profile-container fade-in">
           <div
             className="profile-picture-container"
             style={{ position: "relative", display: "inline-block" }}
@@ -263,7 +261,9 @@ function ProfilePage() {
               onChange={handleFileChange}
             />
           </div>
-          <h3 className="profile-name">{firstName} {lastName}</h3>
+          <h3 className="profile-name">
+            {firstName} {lastName}
+          </h3>
           <p className="profile-username">@{username}</p>
           <p className="profile-email">{email}</p>
           <p className="profile-bio">{bio}</p>
@@ -276,7 +276,7 @@ function ProfilePage() {
               Logout
             </button>
           </div>
-        </section>
+        </div>
 
         {/* Edit Profile Modal */}
         {editingProfile && (
@@ -290,7 +290,6 @@ function ProfilePage() {
                     type="text"
                     value={editFirstName}
                     onChange={(e) => setEditFirstName(e.target.value)}
-                    placeholder="Enter your first name"
                   />
                 </label>
                 <label>
@@ -299,7 +298,6 @@ function ProfilePage() {
                     type="text"
                     value={editLastName}
                     onChange={(e) => setEditLastName(e.target.value)}
-                    placeholder="Enter your last name"
                   />
                 </label>
                 <label>
@@ -308,7 +306,6 @@ function ProfilePage() {
                     type="email"
                     value={editEmail}
                     onChange={(e) => setEditEmail(e.target.value)}
-                    placeholder="Enter a valid email address"
                   />
                 </label>
                 <label>
@@ -316,19 +313,29 @@ function ProfilePage() {
                   <textarea
                     value={editBio}
                     onChange={(e) => setEditBio(e.target.value)}
-                    placeholder="Tell us about yourself"
                   />
                 </label>
               </div>
-              {updateError && <div className="error-message">{updateError}</div>}
               <div className="modal-buttons">
-                <button className="btn save" onClick={handleSaveProfile} disabled={editLoading}>
+                <button
+                  className="btn save"
+                  onClick={handleSaveProfile}
+                  disabled={editLoading}
+                >
                   {editLoading ? "Saving..." : "Save Changes"}
                 </button>
-                <button className="btn cancel" onClick={() => setEditingProfile(false)}>
-                  Close
+                <button
+                  className="btn cancel"
+                  onClick={() => setEditingProfile(false)}
+                >
+                  Cancel
                 </button>
               </div>
+              {editSuccess && !editLoading && (
+                <div className="upload-success">
+                  Profile updated successfully!
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -341,8 +348,8 @@ function ProfilePage() {
               <ReactCrop
                 crop={crop}
                 ruleOfThirds
-                onChange={setCrop}
-                onComplete={setCompletedCrop}
+                onChange={(newCrop) => setCrop(newCrop)}
+                onComplete={(c) => setCompletedCrop(c)}
                 aspect={1}
               >
                 <img
@@ -352,22 +359,34 @@ function ProfilePage() {
                 />
               </ReactCrop>
               <div className="cropper-buttons">
-                <button className="btn upload" onClick={handleUploadCroppedImage} disabled={uploading}>
+                <button
+                  className="btn upload"
+                  onClick={handleUploadCroppedImage}
+                  disabled={uploading}
+                >
                   {uploading ? "Uploading..." : "Upload Cropped Image"}
                 </button>
-                <button className="btn cancel" onClick={() => { setShowCropUI(false); setSelectedImage(null); }}>
+                <button
+                  className="btn cancel"
+                  onClick={() => {
+                    setShowCropUI(false);
+                    setSelectedImage(null);
+                  }}
+                >
                   Cancel
                 </button>
               </div>
               {uploadSuccess && !uploading && (
-                <div className="upload-success">Profile picture updated!</div>
+                <div className="upload-success">
+                  Profile picture updated!
+                </div>
               )}
             </div>
           </div>
         )}
 
         {/* Settings / App Info */}
-        <aside className="settings-container">
+        <div className="settings-container">
           <h2 className="settings-title">About</h2>
           <div className="settings-list">
             <div className="setting-item">
@@ -392,8 +411,8 @@ function ProfilePage() {
               </span>
             </div>
           </div>
-        </aside>
-      </main>
+        </div>
+      </div>
     </div>
   );
 }
