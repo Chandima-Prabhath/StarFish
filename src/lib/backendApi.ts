@@ -11,35 +11,15 @@ import { CapacitorHttp as Http } from '@capacitor/core'
  * await client.login("username", "password");
  *
  * // Create a new event with a location:
- * const eventData: EventData = {
- *   host_id: 1,
- *   title: "My Awesome Event",
- *   start_time: "2025-03-22 06:29:49",
- *   end_time: "2025-03-22 08:29:49",
- *   description: "An event description",
- *   category: "party",
- *   max_participants: 100,
- *   event_picture: "https://example.com/image.jpg",
- *   is_recurring: false,
- *   recurrence_type: "",
- *   recurrence_interval: 0,
- *   recurrence_end_date: "2025-03-22 06:29:49",
- *   custom_recurrence_pattern: ""
- * };
- *
- * const locationData: LocationData = {
- *   name: "Cool Venue",
- *   address: "123 Main St",
- *   city: "Metropolis",
- *   state: "State",
- *   country: "Country",
- *   latitude: 40.7128,
- *   longitude: -74.0060
- * };
- *
+ * const eventData: EventData = { ... };
+ * const locationData: LocationData = { ... };
  * const event = await client.createEventWithLocation(eventData, locationData);
  * console.log("Event created:", event);
  */
+
+// =====================
+// Interfaces & Types
+// =====================
 
 export interface UserData {
   username: string;
@@ -49,41 +29,6 @@ export interface UserData {
   last_name?: string;
   bio?: string;
   profile_picture?: string;
-}
-
-export interface LocationData {
-  location_id?: number; // May be returned by the backend
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  country: string;
-  latitude: number;
-  longitude: number;
-}
-
-export interface EventData {
-  event_id?: number; // May be returned by the backend
-  host_id: number;
-  title: string;
-  start_time: string;
-  end_time: string;
-  description: string;
-  category: string;
-  max_participants: number;
-  event_picture?: string;
-  is_recurring: boolean;
-  recurrence_type?: string;
-  recurrence_interval?: number;
-  recurrence_end_date?: string;
-  custom_recurrence_pattern?: string;
-  location_id?: number; // Will be set before creating the event
-}
-
-export interface LoginResponse {
-  access_token?: string;
-  token_type?: string;
-  error?: string;
 }
 
 export interface UserResponse {
@@ -96,21 +41,85 @@ export interface UserResponse {
   profile_picture?: string;
 }
 
+export interface LocationData {
+  location_id?: number; // Returned by the backend after creation
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+}
+
 export interface LocationResponse extends LocationData {}
 
+export interface EventData {
+  event_id?: number; // Returned by the backend after creation
+  host_id: number;
+  location_id?: number; // Will be set after creating/finding a location
+  title: string;
+  start_time: string;
+  end_time: string;
+  description: string;
+  category: string;
+  max_participants: number;
+  event_picture?: string;
+  is_recurring: boolean;
+  recurrence_type?: string;
+  recurrence_interval?: number;
+  recurrence_end_date?: string;
+  custom_recurrence_pattern?: string;
+}
+
 export interface EventResponse extends EventData {}
+
+export interface LoginResponse {
+  access_token?: string;
+  token_type?: string;
+  error?: string;
+}
 
 export interface ErrorResponse {
   detail: string;
 }
 
+// Admin: Roles & Permissions
+export interface RoleData {
+  role_name: string;
+  description?: string;
+}
+
+export interface RoleResponse {
+  role_id: number;
+  role_name: string;
+  description?: string;
+}
+
+export interface PermissionData {
+  permission_name: string;
+  description?: string;
+}
+
+export interface PermissionResponse {
+  permission_id: number;
+  permission_name: string;
+  description?: string;
+}
+
+// Category type
 export type CategoryResponse = {
   category: string;
 }
 
+// =====================
+// ApiClient Class
+// =====================
+
 class ApiClient {
   private baseUrl: string;
-  public token: string | null = localStorage.getItem("authToken") ?? null; // Store the JWT token
+  public token: string | null = localStorage.getItem("authToken") ?? null;
+
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
   }
@@ -125,16 +134,13 @@ class ApiClient {
     headers: Record<string, string> = {}
   ): Promise<T> {
     const url = `${this.baseUrl}${path}`;
-    // Set default header for JSON if not already provided.
     const finalHeaders: Record<string, string> = { "Content-Type": "application/json", ...headers };
 
-    // If a token is stored and Authorization is not already provided, add it.
     if (this.token && !finalHeaders["Authorization"]) {
       finalHeaders["Authorization"] = `Bearer ${this.token}`;
       console.log('Using Auth header', finalHeaders);
     }
 
-    // If data is FormData, let the browser set the correct Content-Type with proper boundaries.
     if (data instanceof FormData) {
       delete finalHeaders["Content-Type"];
     }
@@ -149,14 +155,12 @@ class ApiClient {
       if (finalHeaders["Content-Type"] === "application/json") {
         options.data = data;
       } else {
-        // For other content types, send the data as is.
         options.data = data;
       }
     }
 
     const response = await Http.request(options);
     if (response.status < 200 || response.status >= 300) {
-      // Attempt to extract error details from response.data.
       const errorDetail =
         (response.data && (response.data.detail || response.data)) || response.status;
       throw new Error(`Error ${response.status}: ${errorDetail}`);
@@ -164,10 +168,10 @@ class ApiClient {
     return response.data as T;
   }
 
-  /**
-   * Log in with username and password.
-   * Stores the access token to be used in subsequent requests.
-   */
+  // -----------------------
+  // Authentication Endpoints
+  // -----------------------
+
   async login(username: string, password: string): Promise<LoginResponse> {
     const formData = new URLSearchParams();
     formData.append("username", username);
@@ -178,7 +182,6 @@ class ApiClient {
       formData.toString(),
       { "Content-Type": "application/x-www-form-urlencoded" }
     );
-    // Save token if available
     if (loginResponse.access_token) {
       this.token = loginResponse.access_token;
       localStorage.setItem("authToken", this.token);
@@ -186,79 +189,157 @@ class ApiClient {
     return loginResponse;
   }
 
-  /**
-   * Retrieve the currently logged-in user.
-   */
   async getCurrentUser(): Promise<UserResponse> {
     return this.request<UserResponse>("/api/v1/auth/me", "GET");
   }
 
-  /**
-   * Create a new user.
-   */
+  // -----------------------
+  // User Endpoints
+  // -----------------------
+
   async createUser(userData: UserData): Promise<UserResponse> {
     return this.request<UserResponse>("/api/v1/user/create", "POST", userData);
   }
 
-  /**
-   * Upload a profile picture for the current user.
-   * Expects a File object.
-   */
+  async getAllUsers(): Promise<UserResponse[]> {
+    return this.request<UserResponse[]>("/api/v1/user/all", "GET");
+  }
+
+  async getUser(userId: number): Promise<UserResponse> {
+    return this.request<UserResponse>(`/api/v1/user/${userId}`, "GET");
+  }
+
+  async updateUser(userId: number, userData: Partial<UserData>): Promise<UserResponse> {
+    return this.request<UserResponse>(`/api/v1/user/${userId}`, "PUT", userData);
+  }
+
+  async deleteUser(userId: number): Promise<{ detail: string }> {
+    return this.request<{ detail: string }>(`/api/v1/user/${userId}`, "DELETE");
+  }
+
   async uploadProfilePicture(file: File): Promise<UserResponse> {
     const formData = new FormData();
     formData.append("file", file);
     return this.request<UserResponse>("/api/v1/user/upload-profile-picture", "POST", formData);
   }
 
-  /**
-   * Create a new location.
-   */
+  // -----------------------
+  // Admin Endpoints (Roles)
+  // -----------------------
+
+  async createRole(roleData: RoleData): Promise<RoleResponse> {
+    return this.request<RoleResponse>("/api/v1/admin/roles", "POST", roleData);
+  }
+
+  async getAllRoles(): Promise<RoleResponse[]> {
+    return this.request<RoleResponse[]>("/api/v1/admin/roles", "GET");
+  }
+
+  async getRole(roleId: number): Promise<RoleResponse> {
+    return this.request<RoleResponse>(`/api/v1/admin/roles/${roleId}`, "GET");
+  }
+
+  async updateRole(roleId: number, roleData: RoleData): Promise<RoleResponse> {
+    return this.request<RoleResponse>(`/api/v1/admin/roles/${roleId}`, "PUT", roleData);
+  }
+
+  async deleteRole(roleId: number): Promise<{ detail: string }> {
+    return this.request<{ detail: string }>(`/api/v1/admin/roles/${roleId}`, "DELETE");
+  }
+
+  // -----------------------
+  // Admin Endpoints (Permissions)
+  // -----------------------
+
+  async createPermission(permissionData: PermissionData): Promise<PermissionResponse> {
+    return this.request<PermissionResponse>("/api/v1/admin/permissions", "POST", permissionData);
+  }
+
+  async getAllPermissions(): Promise<PermissionResponse[]> {
+    return this.request<PermissionResponse[]>("/api/v1/admin/permissions", "GET");
+  }
+
+  async getPermission(permissionId: number): Promise<PermissionResponse> {
+    return this.request<PermissionResponse>(`/api/v1/admin/permissions/${permissionId}`, "GET");
+  }
+
+  async updatePermission(permissionId: number, permissionData: PermissionData): Promise<PermissionResponse> {
+    return this.request<PermissionResponse>(`/api/v1/admin/permissions/${permissionId}`, "PUT", permissionData);
+  }
+
+  async deletePermission(permissionId: number): Promise<{ detail: string }> {
+    return this.request<{ detail: string }>(`/api/v1/admin/permissions/${permissionId}`, "DELETE");
+  }
+
+  // -----------------------
+  // Location Endpoints
+  // -----------------------
+
   async createLocation(locationData: LocationData): Promise<LocationResponse> {
     return this.request<LocationResponse>("/api/v1/locations/", "POST", locationData);
   }
 
-  /**
-   * Retrieve all locations.
-   */
   async getLocations(): Promise<LocationResponse[]> {
     return this.request<LocationResponse[]>("/api/v1/locations/", "GET");
   }
 
+  async getLocation(locationId: number): Promise<LocationResponse> {
+    return this.request<LocationResponse>(`/api/v1/locations/${locationId}`, "GET");
+  }
+
+  async updateLocation(locationId: number, locationData: LocationData): Promise<LocationResponse> {
+    return this.request<LocationResponse>(`/api/v1/locations/${locationId}`, "PUT", locationData);
+  }
+
+  async deleteLocation(locationId: number): Promise<{ detail: string }> {
+    return this.request<{ detail: string }>(`/api/v1/locations/${locationId}`, "DELETE");
+  }
+
   /**
-   * Find a location by name.
+   * Helper to find a location by name.
    */
   async findLocationByName(name: string): Promise<LocationResponse | undefined> {
     const locations = await this.getLocations();
     return locations.find(loc => loc.name.toLowerCase() === name.toLowerCase());
   }
 
-  /**
-   * Create a new event.
-   */
+  // -----------------------
+  // Event Endpoints
+  // -----------------------
+
   async createEvent(eventData: EventData): Promise<EventResponse> {
     return this.request<EventResponse>("/api/v1/events/create", "POST", eventData);
   }
 
-  /**
-   * Retrieve all events.
-   */
   async getEvents(): Promise<EventResponse[]> {
     return this.request<EventResponse[]>("/api/v1/events/", "GET");
   }
 
-  /**
-   * Retrieve all event categories.
-   */
-  async getEventCategories(): Promise<CategoryResponse[]> {    
-    const categories = await this.request<string[]>("/api/v1/events/categories/all", "GET");
-    return categories.map(category => ({
-      category: category
-    }));
+  async getEvent(eventId: number): Promise<EventResponse> {
+    return this.request<EventResponse>(`/api/v1/events/${eventId}`, "GET");
   }
 
-  /**
-   * Retrieve events by category.
-   */
+  async updateEvent(eventId: number, eventData: Partial<EventData>): Promise<EventResponse> {
+    return this.request<EventResponse>(`/api/v1/events/${eventId}`, "PUT", eventData);
+  }
+
+  async deleteEvent(eventId: number): Promise<{ detail: string }> {
+    return this.request<{ detail: string }>(`/api/v1/events/${eventId}`, "DELETE");
+  }
+
+  async joinEvent(eventId: number): Promise<{ detail: string }> {
+    return this.request<{ detail: string }>(`/api/v1/events/${eventId}/join`, "POST");
+  }
+
+  async leaveEvent(eventId: number): Promise<{ detail: string }> {
+    return this.request<{ detail: string }>(`/api/v1/events/${eventId}/leave`, "POST");
+  }
+
+  async getEventCategories(): Promise<CategoryResponse[]> {
+    const categories = await this.request<string[]>("/api/v1/events/categories/all", "GET");
+    return categories.map(category => ({ category }));
+  }
+
   async getEventsByCategory(category: string): Promise<EventResponse[]> {
     return this.request<EventResponse[]>(`/api/v1/events/category/${category}`, "GET");
   }
@@ -271,15 +352,11 @@ class ApiClient {
     eventData: EventData,
     locationData: LocationData
   ): Promise<EventResponse> {
-    // Try to find the location by name.
     let location = await this.findLocationByName(locationData.name);
     if (!location) {
-      // Create the location if not found.
       location = await this.createLocation(locationData);
     }
-    // Set the location_id for the event.
     eventData.location_id = location.location_id;
-    // Create the event.
     return this.createEvent(eventData);
   }
 }
